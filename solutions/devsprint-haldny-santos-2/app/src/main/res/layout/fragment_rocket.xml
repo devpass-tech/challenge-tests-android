@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.RocketFragment">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="@dimen/width_card"
+        android:layout_height="@dimen/height_card_rocket"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_top_card"
+        android:layout_marginBottom="@dimen/margin_bottom_card_rocket"
+        app:cardCornerRadius="@dimen/corner_card"
+        app:cardElevation="@dimen/elevation_card">
+
+        <ImageView
+            android:id="@+id/ivImageCard"
+            android:layout_width="@dimen/width_image_card_rocket"
+            android:layout_height="@dimen/image_height_card_rocket"
+            android:scaleType="fitXY"
+            android:src="@drawable/heavy" />
+
+        <TextView
+            android:id="@+id/tvTittleCardRocket"
+            style="@style/TittleStyleCardRocket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_start_card_rocket"
+            android:layout_marginTop="@dimen/margin_top_card_rocket"
+            android:text="@string/tittle_card_rocket" />
+
+        <TextView
+            android:id="@+id/tvTextCardRocket"
+            style="@style/TextCardRocketStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_start_card_rocket"
+            android:layout_marginBottom="@dimen/text_margin_bottom_card_rocket"
+            android:text="@string/text_card_rocket" />
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>
