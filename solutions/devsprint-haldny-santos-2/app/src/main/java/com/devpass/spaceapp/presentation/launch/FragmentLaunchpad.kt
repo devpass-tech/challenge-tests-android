@@ -1,5 +1,5 @@
 
-package com.devpass.spaceapp.presentation
+package com.devpass.spaceapp.presentation.launch
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,9 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.devpass.spaceapp.databinding.FragmentLaunchpadBinding
+import com.devpass.spaceapp.presentation.launchpad_detail.LaunchpadDetailViewModel
+import com.devpass.spaceapp.presentation.launchpad_detail.LaunchpadDetailsActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FragmentLaunchpad : Fragment() {
 
@@ -18,7 +20,7 @@ class FragmentLaunchpad : Fragment() {
     private val binding
         get() = _binding!!
 
-    private val viewModel: LaunchpadDetailViewModel by viewModels()
+    private val viewModel: LaunchpadDetailViewModel by viewModel()
 
     private val launchpadDetailsId by lazy {
         arguments?.get(ARG_LAUNCHPAD_DETAIL_ID).toString()

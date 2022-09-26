@@ -1,26 +1,26 @@
-package com.devpass.spaceapp.repository
+package com.devpass.spaceapp.repository.launches
 
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.devpass.spaceapp.data.api.response.LaunchesResponse
-import com.devpass.spaceapp.presentation.launchList.LaunchModel
+import com.devpass.spaceapp.model.Launch
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.*
 
 interface LaunchModelMapper {
-    fun transformToLaunchModel(launchesResponse: LaunchesResponse) : LaunchModel
+    fun transformToLaunchModel(launchesResponse: LaunchesResponse) : Launch
 }
 
 class LaunchModelMapperImpl : LaunchModelMapper {
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun transformToLaunchModel(launchesResponse: LaunchesResponse) : LaunchModel {
+    override fun transformToLaunchModel(launchesResponse: LaunchesResponse) : Launch {
 
         val timestamp = Instant.parse(launchesResponse.date)
         val date = Date.from(timestamp)
         val sdf = SimpleDateFormat("MMMM dd, yyyy")
 
-        return LaunchModel(
+        return Launch(
             launchesResponse.nameRocket,
             launchesResponse.flightNumber.toString(),
             sdf.format(date),

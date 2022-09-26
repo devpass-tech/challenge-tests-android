@@ -1,15 +1,15 @@
-package com.devpass.spaceapp.presentation
+package com.devpass.spaceapp.presentation.launch
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.bumptech.glide.Glide
 import com.devpass.spaceapp.databinding.ActivityTabBinding
-import com.devpass.spaceapp.presentation.launchList.LaunchModel
+import com.devpass.spaceapp.model.Launch
 
 class LaunchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityTabBinding
-    private var model: LaunchModel? = null
+    private var model: Launch? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,7 +18,7 @@ class LaunchActivity : AppCompatActivity() {
         model = intent.getParcelableExtra(LAUNCH_MODEL)
 
         val fragments = listOf(
-            FragmentDetails(),
+            FragmentDetails.getInstance(model?.details),
             RocketFragment.getInstance(model?.rocketId),
             FragmentLaunchpad.getInstance(model?.launchpadId)
         )

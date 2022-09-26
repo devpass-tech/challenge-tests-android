@@ -1,10 +1,11 @@
-package com.devpass.spaceapp.presentation.launchList
+package com.devpass.spaceapp.presentation.launch_list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.devpass.spaceapp.repository.FetchLaunchesRepository
+import com.devpass.spaceapp.model.Launch
+import com.devpass.spaceapp.repository.launches.FetchLaunchesRepository
 import com.devpass.spaceapp.utils.NetworkResult
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -45,6 +46,6 @@ class LaunchListViewModel(
     sealed interface LaunchListUIState {
         object Loading : LaunchListUIState
         data class Error(val error: Throwable) : LaunchListUIState
-        data class Success(val data: List<LaunchModel>) : LaunchListUIState
+        data class Success(val data: List<Launch>) : LaunchListUIState
     }
 }

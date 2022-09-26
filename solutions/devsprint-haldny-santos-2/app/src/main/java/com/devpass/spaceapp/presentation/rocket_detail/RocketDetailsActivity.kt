@@ -1,5 +1,4 @@
-package com.devpass.spaceapp.presentation
-
+package com.devpass.spaceapp.presentation.rocket_detail
 
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog

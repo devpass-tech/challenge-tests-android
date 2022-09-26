@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.LaunchDetailsActivity">
+    tools:context=".presentation.launch_detail.LaunchDetailsActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -42,7 +42,7 @@
         android:layout_margin="@dimen/margin_text_description"
         android:justificationMode="inter_word"
         android:lineSpacingMultiplier="1.6"
-        android:text="@string/label_description"
+        tools:text="@string/label_description"
         android:textSize="@dimen/size_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,10 +1,10 @@
 package com.devpass.spaceapp.di
 
-import com.devpass.spaceapp.presentation.launchList.LaunchListViewModel
-import com.devpass.spaceapp.repository.FetchLaunchesRepository
-import com.devpass.spaceapp.repository.FetchLaunchesRepositoryImpl
-import com.devpass.spaceapp.repository.LaunchModelMapper
-import com.devpass.spaceapp.repository.LaunchModelMapperImpl
+import com.devpass.spaceapp.presentation.launch_list.LaunchListViewModel
+import com.devpass.spaceapp.repository.launches.FetchLaunchesRepository
+import com.devpass.spaceapp.repository.launches.FetchLaunchesRepositoryImpl
+import com.devpass.spaceapp.repository.launches.LaunchModelMapper
+import com.devpass.spaceapp.repository.launches.LaunchModelMapperImpl
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
