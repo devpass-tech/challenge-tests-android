@@ -1,63 +1,101 @@
 package com.devpass.spaceapp.presentation.launchList
 
+import android.content.DialogInterface
+import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
+import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devpass.spaceapp.databinding.ActivityLaunchListBinding
 import com.devpass.spaceapp.R
-import com.devpass.spaceapp.data.api.SpaceXAPIService
-import com.devpass.spaceapp.data.model.Launch
-import com.devpass.spaceapp.utils.NetworkUtils
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.devpass.spaceapp.presentation.LaunchActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LaunchListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLaunchListBinding
 
     private lateinit var adapter: LaunchListAdapter
 
+    private val viewModel: LaunchListViewModel by viewModel()
+
+    private val alertDialogError by lazy {
+        AlertDialog.Builder(this@LaunchListActivity).apply {
+            with(this) {
+                setTitle(R.string.alert_dialog_error_title)
+                setMessage(R.string.alert_dialog_error_message)
+                setPositiveButton(
+                    R.string.alert_dialog_error_tryagain_button,
+                    tryAgainButtonClick()
+                )
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLaunchListBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
 
+        setupTitle()
         setupRecycleView()
-        initLaunchList()
+        observeLaunchList()
 
-        val retrofitClient = NetworkUtils.getRetrofitInstance("https://api.spacexdata.com/")
-        val endpoint = retrofitClient.create(SpaceXAPIService::class.java)
-        val callback = endpoint.getAllLaunches()
-
-        callback.enqueue(object : Callback<List<Launch>> {
-            override fun onFailure(call: Call<List<Launch>>, t: Throwable) {
-                t.message?.let { Log.d("BODY", it) }
-            }
-
-            override fun onResponse(call: Call<List<Launch>>, response: Response<List<Launch>>) {
-
-                response.body()?.toString()?.let { Log.d("BODY", it) }
-            }
-        })
     }
 
-    private fun initLaunchList() {
+    private fun tryAgainButtonClick() = DialogInterface.OnClickListener { _, _ ->
+        viewModel.getLaunches()
+    }
 
-        val launch1 = LaunchModel("Launch 1","1", "July 03, 2020", "Success", R.drawable.crs)
-        val launch2 = LaunchModel("Launch 2","2", "July 03, 2020", "Success", R.drawable.falcon_sat)
-        val launch3 = LaunchModel("Launch 3","3", "July 03, 2020", "Success", R.drawable.starlink)
-        val launch4 = LaunchModel("Launch 4","4", "July 03, 2020", "Success", R.drawable.spacex_dragon_crs20_patch01)
-        val launch5 = LaunchModel("Launch 5","5", "July 03, 2020", "Success", R.drawable.starlink)
+    private fun setupTitle() {
+        with(binding.includeToolbar) {
+            tvToolbarTitle.setText(R.string.title_toolbar_launch_list_activity)
+            tvToolbarTitle.setTypeface(null, Typeface.BOLD)
+            back.visibility = View.GONE
+        }
+    }
 
-        var launchList: List<LaunchModel> = listOf(launch1, launch2, launch3, launch4, launch5)
-        adapter.submitList(launchList)
+    private fun startLoading() {
+        with(binding) {
+            lottieRocketLoading.playAnimation()
+            lottieRocketLoading.visibility = View.VISIBLE
+        }
+    }
+
+    private fun observeLaunchList() {
+        viewModel.launches.observe(this) {
+            when (it) {
+                is LaunchListViewModel.LaunchListUIState.Success -> {
+                    adapter.submitList(it.data)
+                    binding.lottieRocketLoading.visibility = View.GONE
+                }
+                is LaunchListViewModel.LaunchListUIState.Error -> {
+                    binding.lottieRocketLoading.visibility = View.GONE
+                    alertDialogError.show()
+                }
+                is LaunchListViewModel.LaunchListUIState.Loading -> {
+                    startLoading()
+                }
+            }
+        }
     }
 
     private fun setupRecycleView() {
-        adapter = LaunchListAdapter()
+        adapter = LaunchListAdapter {
+            Log.i(TAG, "on click $it")
+            startActivity(Intent(baseContext, LaunchActivity::class.java).also { i ->
+                i.putExtra(LAUNCH_MODEL, it)
+            })
+        }
         binding.rvLaunches.adapter = adapter
         binding.rvLaunches.layoutManager = LinearLayoutManager(this)
+    }
+
+    companion object {
+        const val TAG = "LaunchListActivity"
+        private const val LAUNCH_MODEL = "LAUNCH_MODEL"
     }
 }

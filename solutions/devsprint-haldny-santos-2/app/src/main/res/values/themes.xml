@@ -47,7 +47,7 @@
         <item name="lineHeight">24sp</item>
     </style>
 
-    <style name="TittleStyleCardRocket">
+    <style name="TitleStyleCardRocket">
         <item name="fontFamily">@font/roboto</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:textSize">20sp</item>
