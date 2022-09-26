@@ -1,23 +1,23 @@
 package com.devpass.spaceapp.data.api
 
-import com.devpass.spaceapp.data.model.Launch
-import com.devpass.spaceapp.data.model.Launchpad
-import com.devpass.spaceapp.data.model.Rocket
-import retrofit2.Call
+import com.devpass.spaceapp.data.api.response.LaunchesPageResponse
+import com.devpass.spaceapp.data.api.response.LaunchpadDetailResponse
+import com.devpass.spaceapp.data.api.response.QueryParams
+import com.devpass.spaceapp.data.api.response.RocketDetailResponse
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface SpaceXAPIService {
 
-    @GET("v5/launches/latest")
-    fun getLatestLaunch() : Call<Launch>
-
-    @GET("v5/launches")
-    fun getAllLaunches() : Call<List<Launch>>
-
-    @GET("v4/launchpads/{id}")
-    fun getLaunchpad(@Path("id") id: String) : Call<Launchpad>
+    @POST("v5/launches/query")
+    suspend fun fetchNextLaunches(@Body params: QueryParams): LaunchesPageResponse
 
     @GET("v4/rockets/{id}")
-    fun getRocket(@Path("id") id: String) : Call<Rocket>
+    suspend fun fetchRocketDetails(@Path("id") id: String): RocketDetailResponse
+
+    @GET("v4/launchpads/{id}")
+    suspend fun fetchLaunchpadDetails(@Path("id") id: String): LaunchpadDetailResponse
+
 }

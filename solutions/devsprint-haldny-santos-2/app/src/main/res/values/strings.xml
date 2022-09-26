@@ -28,5 +28,12 @@
     <string name="text_state">California</string>
     <string name="tittle_card_rocket">Falcon Heavy</string>
     <string name="text_card_rocket">With the ability to lift into orbit over 54 metric tons (119,000 lb)--a mass equivalent to a 737 jetliner loaded...</string>
-
+    <string name="rocket_details_dialog_error_title">Aviso!</string>
+    <string name="rocket_details_dialog_error_message">Error ao sincronizar detalhe do foguete.</string>
+    <string name="title_toolbar_launch_list_activity">Space App 🚀</string>
+    <string name="alert_dialog_error_tryagain_button">Try again</string>
+    <string name="alert_dialog_error_title">Space App 🚀 - Error alert</string>
+    <string name="alert_dialog_error_message">Error trying to get list, verify your internet connection and try again</string>
+    <string name="launch_successes">Launch Successes: %d</string>
+    <string name="launch_attempts">Launch Attempts: %d</string>
 </resources>
