@@ -1,4 +1,4 @@
-package com.devpass.spaceapp.presentation
+package com.devpass.spaceapp.presentation.launch
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.devpass.spaceapp.databinding.FragmentRocketBinding
+import com.devpass.spaceapp.presentation.rocket_detail.RocketDetailsActivity
+import com.devpass.spaceapp.presentation.rocket_detail.RocketDetailsUiState
+import com.devpass.spaceapp.presentation.rocket_detail.RocketDetailsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RocketFragment : Fragment() {

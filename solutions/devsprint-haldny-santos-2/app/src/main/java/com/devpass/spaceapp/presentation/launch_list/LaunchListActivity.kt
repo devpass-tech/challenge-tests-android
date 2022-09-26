@@ -1,4 +1,4 @@
-package com.devpass.spaceapp.presentation.launchList
+package com.devpass.spaceapp.presentation.launch_list
 
 import android.content.DialogInterface
 import android.content.Intent
@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devpass.spaceapp.databinding.ActivityLaunchListBinding
 import com.devpass.spaceapp.R
-import com.devpass.spaceapp.presentation.LaunchActivity
+import com.devpass.spaceapp.presentation.launch.LaunchActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LaunchListActivity : AppCompatActivity() {

@@ -1,11 +1,12 @@
-package com.devpass.spaceapp.presentation
+package com.devpass.spaceapp.presentation.rocket_detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.devpass.spaceapp.model.RocketDetail
-import com.devpass.spaceapp.repository.RocketDetailRepository
+import com.devpass.spaceapp.repository.rocket.RocketDetailRepository
+import com.devpass.spaceapp.utils.NetworkResult
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -25,7 +26,13 @@ class RocketDetailsViewModel(
                 delay(3000)
                 rocketDetailRepository.fetchRocketDetail(id)
             }.onSuccess {
-                _uiState.value = RocketDetailsUiState.Success(it)
+                if (it is NetworkResult.Success) {
+                    _uiState.value = RocketDetailsUiState.Success(it.data)
+                }
+
+                if (it is NetworkResult.Error) {
+                    _uiState.value = RocketDetailsUiState.Error(it.exception)
+                }
             }.onFailure {
                 _uiState.value = RocketDetailsUiState.Error(it)
             }

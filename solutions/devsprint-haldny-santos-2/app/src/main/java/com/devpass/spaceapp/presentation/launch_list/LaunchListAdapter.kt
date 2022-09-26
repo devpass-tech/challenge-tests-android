@@ -1,4 +1,4 @@
-package com.devpass.spaceapp.presentation.launchList
+package com.devpass.spaceapp.presentation.launch_list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,8 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.devpass.spaceapp.R
 import com.devpass.spaceapp.databinding.ListItemBinding
+import com.devpass.spaceapp.model.Launch
 
-class LaunchListAdapter(private val onItemClick: (LaunchModel) -> Unit) : ListAdapter<LaunchModel, LaunchViewHolder>(LaunchModel) {
+class LaunchListAdapter(private val onItemClick: (Launch) -> Unit) : ListAdapter<Launch, LaunchViewHolder>(
+    Launch
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LaunchViewHolder {
         return LaunchViewHolder.from(parent, onItemClick)
@@ -19,14 +22,14 @@ class LaunchListAdapter(private val onItemClick: (LaunchModel) -> Unit) : ListAd
     }
 }
 
-class LaunchViewHolder(private val binding: ListItemBinding, private val onItemClick: (LaunchModel) -> Unit) : RecyclerView.ViewHolder(binding.root) {
+class LaunchViewHolder(private val binding: ListItemBinding, private val onItemClick: (Launch) -> Unit) : RecyclerView.ViewHolder(binding.root) {
     private val imageLaunch = binding.ivLogo
     private val numberLaunch = binding.tvNumber
     private val nameLaunch = binding.tvName
     private val dateLaunch = binding.tvDate
     private val statusLaunch = binding.tvStatus
 
-    private var model: LaunchModel? = null
+    private var model: Launch? = null
 
     init {
         itemView.setOnClickListener {
@@ -34,7 +37,7 @@ class LaunchViewHolder(private val binding: ListItemBinding, private val onItemC
         }
     }
 
-    fun bind(model: LaunchModel) {
+    fun bind(model: Launch) {
         this.model = model
 
         Glide
@@ -52,7 +55,7 @@ class LaunchViewHolder(private val binding: ListItemBinding, private val onItemC
     }
 
     companion object {
-        fun from(parent: ViewGroup, onItemClick: (LaunchModel) -> Unit): LaunchViewHolder {
+        fun from(parent: ViewGroup, onItemClick: (Launch) -> Unit): LaunchViewHolder {
             return LaunchViewHolder(
                 ListItemBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false

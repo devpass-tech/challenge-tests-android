@@ -1,11 +1,11 @@
-package com.devpass.spaceapp.presentation.launchList
+package com.devpass.spaceapp.model
 
 import android.os.Parcelable
 import androidx.recyclerview.widget.DiffUtil
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class LaunchModel(
+data class Launch(
     val name: String,
     val number: String,
     var date: String,
@@ -15,12 +15,12 @@ data class LaunchModel(
     val details: String,
     val launchpadId: String,
 ) : Parcelable {
-    companion object : DiffUtil.ItemCallback<LaunchModel>() {
-        override fun areItemsTheSame(oldItem: LaunchModel, newItem: LaunchModel): Boolean {
+    companion object : DiffUtil.ItemCallback<Launch>() {
+        override fun areItemsTheSame(oldItem: Launch, newItem: Launch): Boolean {
             return oldItem.number == newItem.number
         }
 
-        override fun areContentsTheSame(oldItem: LaunchModel, newItem: LaunchModel): Boolean {
+        override fun areContentsTheSame(oldItem: Launch, newItem: Launch): Boolean {
             return oldItem == newItem
         }
     }

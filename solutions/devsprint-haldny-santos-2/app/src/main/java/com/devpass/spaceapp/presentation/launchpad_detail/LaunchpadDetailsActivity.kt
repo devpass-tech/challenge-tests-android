@@ -1,9 +1,8 @@
-package com.devpass.spaceapp.presentation
+package com.devpass.spaceapp.presentation.launchpad_detail
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
-import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.devpass.spaceapp.R
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -13,6 +12,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.devpass.spaceapp.databinding.ActivityLaunchpadDetailsBinding
+import com.devpass.spaceapp.presentation.launch.FragmentLaunchpad
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LaunchpadDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -24,7 +25,7 @@ class LaunchpadDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
     }
 
-    private val viewModel: LaunchpadDetailViewModel by viewModels()
+    private val viewModel: LaunchpadDetailViewModel by viewModel()
 
     private lateinit var map: GoogleMap
 

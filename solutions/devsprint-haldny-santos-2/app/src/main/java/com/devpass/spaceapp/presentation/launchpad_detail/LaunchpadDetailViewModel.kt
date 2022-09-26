@@ -1,15 +1,14 @@
-package com.devpass.spaceapp.presentation
+package com.devpass.spaceapp.presentation.launchpad_detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.devpass.spaceapp.model.LaunchpadDetail
-import com.devpass.spaceapp.repository.LaunchpadDetailRepository
-import com.devpass.spaceapp.repository.LaunchpadDetailRepositoryImpl
+import com.devpass.spaceapp.repository.launchpad.LaunchpadDetailRepository
 import com.devpass.spaceapp.utils.NetworkResult
 
 class LaunchpadDetailViewModel(
-    val repository: LaunchpadDetailRepository = LaunchpadDetailRepositoryImpl()
+    val repository: LaunchpadDetailRepository
 ) : ViewModel() {
 
     private val _launchpadDetail: MutableLiveData<LaunchpadDetailUIState> = MutableLiveData()
