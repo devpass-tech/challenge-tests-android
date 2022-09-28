@@ -16,28 +16,31 @@ interface LaunchModelMapper {
 class LaunchModelMapperImpl : LaunchModelMapper {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun transformToLaunchModel(launchesResponse: LaunchesResponse): Launch {
-
-        val timestamp: Instant
-
-        try {
-            timestamp = Instant.parse(launchesResponse.date)
-        } catch (e: RuntimeException) {
-            throw RuntimeException("Error converting date to timestamp")
-        }
-
-        val date = Date.from(timestamp)
-        val sdf = SimpleDateFormat("MMMM dd, yyyy")
-
+        val date = getFormattedDate(launchesResponse.date)
 
         return Launch(
             launchesResponse.nameRocket,
             launchesResponse.flightNumber.toString(),
-            sdf.format(date),
+            date,
             if (launchesResponse.status) "Success" else "Fail",
             launchesResponse.links.patch.small,
             launchesResponse.rocketId,
             launchesResponse.details ?: "Empty",
             launchesResponse.launchpadId
         )
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getFormattedDate(
+        dateValue: String
+    ): String {
+        return try {
+            val timestamp = Instant.parse(dateValue)
+            val date = Date.from(timestamp)
+            val sdf = SimpleDateFormat("MMMM dd, yyyy")
+            sdf.format(date)
+        } catch (e: RuntimeException) {
+            "Bad formatted date"
+        }
     }
 }
