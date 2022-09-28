@@ -28,5 +28,5 @@ data class Links(
 
 data class Patch(
     @SerializedName("small")
-    var small: String,
+    val small: String,
 )
