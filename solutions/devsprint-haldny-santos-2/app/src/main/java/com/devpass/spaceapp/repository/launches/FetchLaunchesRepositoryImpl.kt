@@ -13,7 +13,7 @@ class FetchLaunchesRepositoryImpl(
 
     override suspend fun fetchLaunches(): NetworkResult<List<Launch>> {
         return try {
-            val response = api.fetchNextLaunches(QueryParams(OptionsRequest(20))).docs
+            val response = api.fetchNextLaunches(QueryParams(OptionsRequest(1))).docs
             val launchList = response.map {
                 mapper.transformToLaunchModel(it)
             }
