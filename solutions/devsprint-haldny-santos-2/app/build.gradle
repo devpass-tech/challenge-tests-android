@@ -105,7 +105,6 @@ dependencies {
     implementation "io.insert-koin:koin-core:$koin_version"
     implementation "io.insert-koin:koin-android:$koin_version"
 
-
     // Fragment KTX
     implementation 'androidx.fragment:fragment-ktx:1.4.0'
 }
