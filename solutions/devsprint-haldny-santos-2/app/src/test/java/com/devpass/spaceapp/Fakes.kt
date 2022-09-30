@@ -1,12 +1,8 @@
 package com.devpass.spaceapp
 
-import com.devpass.spaceapp.data.api.response.LaunchesPageResponse
-import com.devpass.spaceapp.data.api.response.LaunchesResponse
-import com.devpass.spaceapp.data.api.response.Links
-import com.devpass.spaceapp.data.api.response.OptionsRequest
-import com.devpass.spaceapp.data.api.response.Patch
-import com.devpass.spaceapp.data.api.response.QueryParams
+import com.devpass.spaceapp.data.api.response.*
 import com.devpass.spaceapp.model.Launch
+import com.devpass.spaceapp.model.RocketDetail
 
 val fakeQueryParams = QueryParams(OptionsRequest(20))
 
@@ -44,4 +40,18 @@ val fakeLaunch = Launch(
     rocketId = "",
     details = "",
     launchpadId = ""
+)
+
+val fakeRocketDetailResponse = RocketDetailResponse(
+    id = "",
+    name = "",
+    description = "",
+    flickrImages = listOf()
+)
+
+val fakeRocketDetail = RocketDetail(
+    id = "",
+    name = "",
+    description = "",
+    image = ""
 )
