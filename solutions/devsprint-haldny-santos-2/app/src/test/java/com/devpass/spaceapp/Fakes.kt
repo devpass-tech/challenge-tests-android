@@ -11,9 +11,6 @@ import com.devpass.spaceapp.data.api.response.RocketDetailResponse
 import com.devpass.spaceapp.model.Launch
 import com.devpass.spaceapp.model.LaunchpadDetail
 import com.devpass.spaceapp.model.RocketDetail
-import com.devpass.spaceapp.data.api.response.LaunchpadDetailResponse
-import com.devpass.spaceapp.model.Launch
-import com.devpass.spaceapp.model.LaunchpadDetail
 
 val fakeQueryParams = QueryParams(OptionsRequest(20))
 
