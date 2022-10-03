@@ -30,10 +30,10 @@ class LaunchpadDetailViewModel(
             _launchpadDetail.postValue(LaunchpadDetailUIState.Error(it))
         }
     }
+}
 
-    sealed interface LaunchpadDetailUIState {
-        object Loading : LaunchpadDetailUIState
-        data class Error(val error: Throwable) : LaunchpadDetailUIState
-        data class Success(val data: LaunchpadDetail) : LaunchpadDetailUIState
-    }
+sealed interface LaunchpadDetailUIState {
+    object Loading : LaunchpadDetailUIState
+    data class Error(val error: Throwable) : LaunchpadDetailUIState
+    data class Success(val data: LaunchpadDetail) : LaunchpadDetailUIState
 }
