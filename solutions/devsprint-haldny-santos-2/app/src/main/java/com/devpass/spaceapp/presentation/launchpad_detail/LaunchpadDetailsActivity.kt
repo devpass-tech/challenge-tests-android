@@ -68,9 +68,9 @@ class LaunchpadDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun observeUIState() {
         viewModel.launchpadDetailUI.observe(this) {
             when(it) {
-                is LaunchpadDetailViewModel.LaunchpadDetailUIState.Error -> Unit // TODO()
-                is LaunchpadDetailViewModel.LaunchpadDetailUIState.Loading -> Unit // TODO()
-                is LaunchpadDetailViewModel.LaunchpadDetailUIState.Success -> {
+                is LaunchpadDetailUIState.Error -> Unit // TODO()
+                is LaunchpadDetailUIState.Loading -> Unit // TODO()
+                is LaunchpadDetailUIState.Success -> {
                     with(binding) {
                         tvLaunchpad.text = it.data.name
                         tvNameLaunchpad.text = it.data.locality

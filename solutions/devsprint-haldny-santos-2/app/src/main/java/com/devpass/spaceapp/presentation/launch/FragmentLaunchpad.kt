@@ -10,6 +10,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.devpass.spaceapp.databinding.FragmentLaunchpadBinding
+import com.devpass.spaceapp.presentation.launchpad_detail.LaunchpadDetailUIState
 import com.devpass.spaceapp.presentation.launchpad_detail.LaunchpadDetailViewModel
 import com.devpass.spaceapp.presentation.launchpad_detail.LaunchpadDetailsActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -60,9 +61,9 @@ class FragmentLaunchpad : Fragment() {
     private fun observeUIState() {
         viewModel.launchpadDetailUI.observe(viewLifecycleOwner) {
             when(it) {
-                is LaunchpadDetailViewModel.LaunchpadDetailUIState.Error -> Unit // TODO()
-                is LaunchpadDetailViewModel.LaunchpadDetailUIState.Loading -> Unit // TODO()
-                is LaunchpadDetailViewModel.LaunchpadDetailUIState.Success -> {
+                is LaunchpadDetailUIState.Error -> Unit // TODO()
+                is LaunchpadDetailUIState.Loading -> Unit // TODO()
+                is LaunchpadDetailUIState.Success -> {
                     with(binding) {
                         tvTittleCardLaunchpad.text = it.data.name
                         tvTypeLaunchpad.text = it.data.locality

@@ -1,8 +1,7 @@
-package com.devpass.spaceapp.presentation
+package com.devpass.spaceapp.presentation.launchpad_detail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.devpass.spaceapp.fakeLaunchpadDetail
-import com.devpass.spaceapp.presentation.launchpad_detail.LaunchpadDetailViewModel
 import com.devpass.spaceapp.repository.launchpad.LaunchpadDetailRepository
 import com.devpass.spaceapp.utils.NetworkResult
 import io.mockk.coEvery
@@ -40,7 +39,7 @@ class LaunchpadDetailViewModelTest {
 
     @Test
     fun `GIVEN launchpad id valid WHEN safeLaunchpadDetailCall is called THEN return a LaunchpadDetailUIState Success with an object LaunchpadDetail`() {
-        val expected = LaunchpadDetailViewModel.LaunchpadDetailUIState.Success(fakeLaunchpadDetail)
+        val expected = LaunchpadDetailUIState.Success(fakeLaunchpadDetail)
 
         coEvery {
             repository.fetchLaunchpad(launchpadId)
@@ -50,7 +49,7 @@ class LaunchpadDetailViewModelTest {
             viewModel.safeLaunchpadDetailCall(launchpadId)
         }
 
-        coEvery {
+        coVerify {
             repository.fetchLaunchpad(launchpadId)
         }
         assertEquals(expected, viewModel.launchpadDetailUI.value)
@@ -58,11 +57,11 @@ class LaunchpadDetailViewModelTest {
 
     @Test
     fun `GIVEN onSuccess with Network Error WHEN fetchLaunchpad is called THEN return a LaunchpadDetailUIState status Error`(){
-        val expected = LaunchpadDetailViewModel.LaunchpadDetailUIState.Error(fakeExpection)
+        val expected = LaunchpadDetailUIState.Error(fakeException)
 
         coEvery {
             repository.fetchLaunchpad(launchpadId)
-        } returns NetworkResult.Error(fakeExpection)
+        } returns NetworkResult.Error(fakeException)
 
         runTest {
             viewModel.safeLaunchpadDetailCall(launchpadId)
@@ -77,11 +76,11 @@ class LaunchpadDetailViewModelTest {
 
     @Test
     fun `GIVEN onFailure exception WHEN fetchLaunchpad is called THEN return a LaunchpadDetailUIState status Error with an exception`(){
-        val expected = LaunchpadDetailViewModel.LaunchpadDetailUIState.Error(fakeExpection)
+        val expected = LaunchpadDetailUIState.Error(fakeException)
 
         coEvery {
             repository.fetchLaunchpad(launchpadId)
-        } throws fakeExpection
+        } throws fakeException
 
         runTest {
             viewModel.safeLaunchpadDetailCall(launchpadId)
@@ -103,6 +102,6 @@ class LaunchpadDetailViewModelTest {
 
     private companion object{
         val launchpadId = "5e9d0d95eda69955f709d1eb"
-        val fakeExpection = Exception("Error")
+        val fakeException = Exception("Error")
     }
 }
