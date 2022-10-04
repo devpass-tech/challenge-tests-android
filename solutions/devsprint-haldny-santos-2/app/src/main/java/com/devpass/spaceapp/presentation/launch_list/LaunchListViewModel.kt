@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.devpass.spaceapp.model.Launch
 import com.devpass.spaceapp.repository.launches.FetchLaunchesRepository
 import com.devpass.spaceapp.utils.NetworkResult
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LaunchListViewModel(
@@ -27,7 +26,6 @@ class LaunchListViewModel(
 
     private suspend fun safeLaunchesCall() {
         _launches.postValue(LaunchListUIState.Loading)
-        delay(3000)
 
         runCatching {
             repository.fetchLaunches()
