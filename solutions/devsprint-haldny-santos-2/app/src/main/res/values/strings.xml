@@ -36,4 +36,5 @@
     <string name="alert_dialog_error_message">Error trying to get list, verify your internet connection and try again</string>
     <string name="launch_successes">Launch Successes: %d</string>
     <string name="launch_attempts">Launch Attempts: %d</string>
+    <string name="launch_list_content_description">Launch list</string>
 </resources>

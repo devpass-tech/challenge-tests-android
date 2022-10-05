@@ -15,7 +15,7 @@
         app:cardElevation="@dimen/elevation_card">
 
         <TextView
-            android:id="@+id/tvTittleCardLaunchpad"
+            android:id="@+id/tvTitleCardLaunchpad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"

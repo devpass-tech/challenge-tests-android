@@ -34,16 +34,14 @@ class LaunchActivity : AppCompatActivity() {
         binding.btRunBack.setOnClickListener { onBackPressed() }
 
         with(binding) {
-            tvTittle.text = model?.name
+            tvTitle.text = model?.name
             tvDate.text = model?.date
             tvStatus.text = model?.status
             Glide.with(this@LaunchActivity).load(model?.image).into(ivImageSpace)
-
         }
     }
 
     companion object {
         private const val LAUNCH_MODEL = "LAUNCH_MODEL"
     }
-
 }
