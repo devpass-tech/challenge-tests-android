@@ -23,7 +23,7 @@
             android:src="@drawable/ic_back_24" />
 
         <TextView
-            android:id="@+id/tvTittle"
+            android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

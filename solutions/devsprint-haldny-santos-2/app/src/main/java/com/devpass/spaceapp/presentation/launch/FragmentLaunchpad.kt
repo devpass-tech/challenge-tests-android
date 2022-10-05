@@ -65,7 +65,7 @@ class FragmentLaunchpad : Fragment() {
                 is LaunchpadDetailUIState.Loading -> Unit // TODO()
                 is LaunchpadDetailUIState.Success -> {
                     with(binding) {
-                        tvTittleCardLaunchpad.text = it.data.name
+                        tvTitleCardLaunchpad.text = it.data.name
                         tvTypeLaunchpad.text = it.data.locality
                         tvStateLaunchpad.text = it.data.region
                     }
