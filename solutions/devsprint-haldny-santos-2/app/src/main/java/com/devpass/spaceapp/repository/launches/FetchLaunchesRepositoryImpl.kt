@@ -4,7 +4,7 @@ import com.devpass.spaceapp.data.api.SpaceXAPIService
 import com.devpass.spaceapp.data.api.response.OptionsRequest
 import com.devpass.spaceapp.data.api.response.QueryParams
 import com.devpass.spaceapp.model.Launch
-import com.devpass.spaceapp.utils.NetworkResult
+import com.devpass.spaceapp.tests.utils.NetworkResult
 
 class FetchLaunchesRepositoryImpl(
     val api: SpaceXAPIService,

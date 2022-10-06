@@ -16,7 +16,8 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testApplicationId "com.devpass.spaceapp.tests"
+        testInstrumentationRunner "com.devpass.spaceapp.tests.AppAndroidTestRunner"
     }
 
     flavorDimensions "type"
@@ -63,6 +64,14 @@ android {
         resources.excludes.add("MANIFEST.MF")
         resources.excludes.add("META-INF/*")
     }
+
+    sourceSets {
+        androidTest {
+            assets {
+                assets.srcDirs = ['src/androidTest/assets']
+            }
+        }
+    }
 }
 
 dependencies {
@@ -91,6 +100,9 @@ dependencies {
     androidTestImplementation('com.adevinta.android:barista:4.2.0') {
         exclude group: 'org.jetbrains.kotlin'
     }
+
+    // Cucumber
+    androidTestImplementation "io.cucumber:cucumber-android:4.4.1"
 
     //Mockk
     testImplementation "io.mockk:mockk:$mockk_version"
