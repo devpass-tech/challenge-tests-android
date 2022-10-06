@@ -39,7 +39,7 @@ class RocketFragment : Fragment() {
         }
 
         with(binding) {
-            cardView.setOnClickListener {
+            rocketCardView.setOnClickListener {
                 val intent = Intent(requireContext(), RocketDetailsActivity::class.java).apply {
                     putExtra(ARG_ROCKET, rocketId)
                 }
