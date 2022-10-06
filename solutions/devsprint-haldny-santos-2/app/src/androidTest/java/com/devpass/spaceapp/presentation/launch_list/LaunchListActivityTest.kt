@@ -1,4 +1,4 @@
-package com.devpass.spaceapp.presentation
+package com.devpass.spaceapp.presentation.launch_list
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -14,8 +14,6 @@ import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assert
 import com.adevinta.android.barista.interaction.BaristaSleepInteractions.sleep
 import com.adevinta.android.barista.interaction.BaristaListInteractions.clickListItem
 import com.devpass.spaceapp.R
-import com.devpass.spaceapp.presentation.launch_list.LaunchListActivity
-import com.devpass.spaceapp.presentation.launch_list.LaunchViewHolder
 import com.devpass.spaceapp.utils.waitUntilGoneAction
 import org.hamcrest.core.AllOf.allOf
 import org.junit.Rule
@@ -23,7 +21,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class LaunchActivityTest {
+class LaunchListActivityTest {
 
     @get:Rule
     val activityRule = ActivityScenarioRule(LaunchListActivity::class.java)
@@ -54,5 +52,32 @@ class LaunchActivityTest {
         sleep(5000L)
         clickListItem(R.id.rv_launches, 9)
         assertDisplayed(R.id.tvTitle, "CRS-2")
+    }
+
+    @Test
+    fun givenLaunchListActivityWhenClickOnListItem20ThenGoToLaunchActivityWithItem20DataFilled() {
+        onView(withId(R.id.lottie_rocket_loading))
+            .perform(waitUntilGoneAction(5000L))
+
+        onView(
+            allOf(
+                withId(R.id.rv_launches),
+                isDisplayed()
+            )
+        ).perform(actionOnItemAtPosition<LaunchViewHolder>(19, click()))
+
+        onView(
+            allOf(
+                withId(R.id.tvTitle),
+                withText("DSCOVR")
+            )
+        ).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun barista_givenLaunchListActivityWhenClickOnListItem20ThenGoToLaunchActivityWithItem20DataFilled() {
+        sleep(5000L)
+        clickListItem(R.id.rv_launches, 19)
+        assertDisplayed(R.id.tvTitle, "DSCOVR")
     }
 }
