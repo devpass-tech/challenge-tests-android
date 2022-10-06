@@ -3,7 +3,7 @@ package com.devpass.spaceapp.repository.rocket
 import com.devpass.spaceapp.data.api.SpaceXAPIService
 import com.devpass.spaceapp.fakeRocketDetail
 import com.devpass.spaceapp.fakeRocketDetailResponse
-import com.devpass.spaceapp.utils.NetworkResult
+import com.devpass.spaceapp.tests.utils.NetworkResult
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every

@@ -1,6 +1,6 @@
 package com.devpass.spaceapp.di
 
-import com.devpass.spaceapp.presentation.launchpad_detail.LaunchpadDetailViewModel
+import com.devpass.spaceapp.tests.presentation.launchpad_detail.LaunchpadDetailViewModel
 import com.devpass.spaceapp.repository.launchpad.LaunchpadDetailMapper
 import com.devpass.spaceapp.repository.launchpad.LaunchpadDetailMapperImpl
 import com.devpass.spaceapp.repository.launchpad.LaunchpadDetailRepository

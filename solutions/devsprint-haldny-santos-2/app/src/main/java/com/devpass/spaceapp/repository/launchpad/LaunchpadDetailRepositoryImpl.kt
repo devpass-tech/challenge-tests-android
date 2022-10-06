@@ -2,7 +2,7 @@ package com.devpass.spaceapp.repository.launchpad
 
 import com.devpass.spaceapp.data.api.SpaceXAPIService
 import com.devpass.spaceapp.model.LaunchpadDetail
-import com.devpass.spaceapp.utils.NetworkResult
+import com.devpass.spaceapp.tests.utils.NetworkResult
 
 class LaunchpadDetailRepositoryImpl(
     val api: SpaceXAPIService,

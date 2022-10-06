@@ -4,7 +4,7 @@ import com.devpass.spaceapp.data.api.SpaceXAPIService
 import com.devpass.spaceapp.fakeLaunch
 import com.devpass.spaceapp.fakeLaunchesPageResponse
 import com.devpass.spaceapp.fakeQueryParams
-import com.devpass.spaceapp.utils.NetworkResult
+import com.devpass.spaceapp.tests.utils.NetworkResult
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every

@@ -18,7 +18,7 @@
             android:value="${apiKey}"/>
 
         <activity
-            android:name="com.devpass.spaceapp.presentation.launch_list.LaunchListActivity"
+            android:name="com.devpass.spaceapp.tests.presentation.launch_list.LaunchListActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,12 +26,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.launch.LaunchActivity"/>
+        <activity android:name="com.devpass.spaceapp.tests.presentation.launch.LaunchActivity"/>
 
 
-        <activity android:name=".presentation.launch_detail.LaunchDetailsActivity"/>
-        <activity android:name=".presentation.rocket_detail.RocketDetailsActivity"/>
-        <activity android:name=".presentation.launchpad_detail.LaunchpadDetailsActivity"/>
+        <activity android:name="com.devpass.spaceapp.tests.presentation.launch_detail.LaunchDetailsActivity"/>
+        <activity android:name="com.devpass.spaceapp.tests.presentation.rocket_detail.RocketDetailsActivity"/>
+        <activity android:name="com.devpass.spaceapp.tests.presentation.launchpad_detail.LaunchpadDetailsActivity"/>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

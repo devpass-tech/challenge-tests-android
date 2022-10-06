@@ -1,6 +1,6 @@
 package com.devpass.spaceapp.di
 
-import com.devpass.spaceapp.presentation.rocket_detail.RocketDetailsViewModel
+import com.devpass.spaceapp.tests.presentation.rocket_detail.RocketDetailsViewModel
 import com.devpass.spaceapp.repository.rocket.RocketDetailMapper
 import com.devpass.spaceapp.repository.rocket.RocketDetailMapperImpl
 import com.devpass.spaceapp.repository.rocket.RocketDetailRepository
