@@ -25,6 +25,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.3
+        
+      - name: Prepare cache
+        uses: actions/cache@v2
+        with:
+          path: |
+              ~/.gradle/caches/modules-*
+              ~/.gradle/caches/jars-*
+              ~/.gradle/caches/build-cache-*
+          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle', '**/*.gradle.kts', '**/gradle/wrapper/gradle-wrapper.properties') }}
 
       - name: Setup Java JDK
         uses: actions/setup-java@v2.3.1
