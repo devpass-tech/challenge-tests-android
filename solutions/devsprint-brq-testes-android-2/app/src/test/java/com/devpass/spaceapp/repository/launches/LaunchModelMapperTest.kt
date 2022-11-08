@@ -21,14 +21,22 @@ class LaunchModelMapperTest {
     }
 
     @Test
-    fun `Verify if the LaunchesResponse is correctly mapped to Launch model`(){
+    fun `Verify if the LaunchesResponse is correctly mapped to Launch model with Fail status`(){
 
-        val launchModel = mapper.transformToLaunchModel(mockLaunchesResponse())
-        assertEquals( mockLaunchModel(), launchModel)
+        val launchModel = mapper.transformToLaunchModel(mockFailLaunchesResponse())
+        assertEquals( mockFailLaunchModel(), launchModel)
 
     }
 
-    private fun mockLaunchModel() = Launch(
+    @Test
+    fun `Verify if the LaunchesResponse is correctly mapped to Launch model with Success status`(){
+
+        val launchModel = mapper.transformToLaunchModel(mockSuccessLaunchesResponse())
+        assertEquals( mockSuccessLaunchModel(), launchModel)
+
+    }
+
+    private fun mockFailLaunchModel() = Launch(
         name = "string 2",
         number = "1",
         date = SimpleDateFormat("MMMM dd, yyyy").format(Date.from(Instant.parse("2008-08-03T03:34:00.000Z"))),
@@ -39,7 +47,30 @@ class LaunchModelMapperTest {
         launchpadId = "launch id"
     )
 
-    private fun mockLaunchesResponse() = LaunchesResponse(
+    private fun mockSuccessLaunchModel() = Launch(
+        name = "string 2",
+        number = "1",
+        date = SimpleDateFormat("MMMM dd, yyyy").format(Date.from(Instant.parse("2008-08-03T03:34:00.000Z"))),
+        status = "Success",
+        image = "string 1",
+        rocketId = "id",
+        details = "details",
+        launchpadId = "launch id"
+    )
+
+
+    private fun mockSuccessLaunchesResponse() = LaunchesResponse(
+        links = mockLinks(),
+        nameRocket = "string 2",
+        date = "2008-08-03T03:34:00.000Z",
+        status = true,
+        flightNumber = 1,
+        rocketId = "id",
+        details = "details",
+        launchpadId = "launch id"
+    )
+
+    private fun mockFailLaunchesResponse() = LaunchesResponse(
         links = mockLinks(),
         nameRocket = "string 2",
         date = "2008-08-03T03:34:00.000Z",
