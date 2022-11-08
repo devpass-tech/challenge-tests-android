@@ -41,5 +41,8 @@ jobs:
           java-version: 11
           distribution: adopt
 
+      - name: Run local files
+        run: ls -la
+      
       - name: Run Test
         run: ./gradlew testDevDebugUnitTest
