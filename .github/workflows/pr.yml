@@ -42,7 +42,9 @@ jobs:
           distribution: adopt
           
       - name: Prepare Android
-        run: echo sdk.dir=$ANDROID_HOME >> local.properties
+        run: | 
+            echo sdk.dir=$ANDROID_HOME >> local.properties
+            echo MAPS_API_KEY={{ $MAPS_API_KEY }} >> gradle.properties
       
       - name: Run Test
         run: ./gradlew testDevDebugUnitTest
