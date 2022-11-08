@@ -44,7 +44,7 @@ jobs:
       - name: Prepare Android
         run: | 
             echo sdk.dir=$ANDROID_HOME >> local.properties
-            echo MAPS_API_KEY={{ $MAPS_API_KEY }} >> gradle.properties
+            echo -e "\nMAPS_API_KEY={{ $MAPS_API_KEY }}" >> gradle.properties
       
       - name: Run Test
         run: ./gradlew testDevDebugUnitTest
