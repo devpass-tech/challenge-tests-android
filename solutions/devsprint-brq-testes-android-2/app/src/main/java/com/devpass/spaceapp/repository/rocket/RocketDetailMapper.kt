@@ -1,8 +1,6 @@
 package com.devpass.spaceapp.repository.rocket
 
-import com.devpass.spaceapp.data.api.response.LaunchpadDetailResponse
 import com.devpass.spaceapp.data.api.response.RocketDetailResponse
-import com.devpass.spaceapp.model.LaunchpadDetail
 import com.devpass.spaceapp.model.RocketDetail
 
 interface RocketDetailMapper {
