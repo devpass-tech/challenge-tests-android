@@ -44,4 +44,5 @@ class LaunchpadDetailMapperImplTest {
         launchAttempts = 0,
         launchSuccesses = 0
     )
+
 }
