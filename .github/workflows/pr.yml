@@ -41,8 +41,8 @@ jobs:
           java-version: 11
           distribution: adopt
           
-      - name: Setup Android SDK Tools
-        uses: android-actions/setup-android@v2.0.2
+      - name: Prepare Android
+        run: echo sdk.dir=$ANDROID_HOME >> local.properties
       
       - name: Run Test
         run: ./gradlew testDevDebugUnitTest
