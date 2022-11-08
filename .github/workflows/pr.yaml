@@ -28,25 +28,25 @@ jobs:
 steps:
     ## Checkout our repository ###
     - name: Auto Assign PR
-    uses: kentaro-m/auto-assign-action@v1.2.1
+      uses: kentaro-m/auto-assign-action@v1.2.1
 
     - name: Checkout
-    uses: actions/checkout@v2.3.3
+      uses: actions/checkout@v2.3.3
 
     - name: Prepare cache
-    uses: actions/cache@v2
-    with:
+      uses: actions/cache@v2
+      with:
         path: |
-        ~/.gradle/caches/modules-*
-        ~/.gradle/caches/jars-*
-        ~/.gradle/caches/build-cache-*
+            ~/.gradle/caches/modules-*
+            ~/.gradle/caches/jars-*
+            ~/.gradle/caches/build-cache-*
         key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle', '**/*.gradle.kts', '**/gradle/wrapper/gradle-wrapper.properties') }}
 
     - name: Setup Java JDK
-    uses: actions/setup-java@v2.3.1
-    with:
+      uses: actions/setup-java@v2.3.1
+      with:
         java-version: 11
         distribution: adopt
 
     - name: Run Test
-    run: ./gradlew testDevDebugUnitTest
+      run: ./gradlew testDevDebugUnitTest
