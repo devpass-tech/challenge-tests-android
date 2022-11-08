@@ -16,8 +16,8 @@ class LaunchModelMapperImpl : LaunchModelMapper {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun transformToLaunchModel(launchesResponse: LaunchesResponse) : Launch {
 
-        val timestamp = Instant.parse(launchesResponse.date)
-        val date = Date.from(timestamp)
+//        val timestamp = Instant.parse(launchesResponse.date)
+        val date = Date.from(Instant.now())
         val sdf = SimpleDateFormat("MMMM dd, yyyy")
 
         return Launch(

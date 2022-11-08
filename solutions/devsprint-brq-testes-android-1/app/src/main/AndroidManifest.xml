@@ -15,7 +15,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${apiKey}"/>
+            android:value="devpass"/>
 
         <activity
             android:name="com.devpass.spaceapp.presentation.launch_list.LaunchListActivity"
