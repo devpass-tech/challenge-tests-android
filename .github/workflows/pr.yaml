@@ -22,7 +22,7 @@ jobs:
         runs-on: ubuntu-latest
         defaults:
             run:
-                working-directory: ./solutions/devsprint-brq-testes-android-1
+                working-directory: './solutions/devsprint-brq-testes-android-1'
 
 # Steps represent a sequence of tasks that will be executed as part of the job
 steps:
