@@ -16,14 +16,9 @@ import org.junit.Test
 @ExperimentalCoroutinesApi
 class LaunchpadDetailRepositoryImplTest {
 
-    private var api = mockk<SpaceXAPIService>()
-    private var mapper = mockk<LaunchpadDetailMapper>()
-    private lateinit var repository: LaunchpadDetailRepositoryImpl
-
-    @Before
-    fun setUp() {
-        repository = LaunchpadDetailRepositoryImpl(api, mapper)
-    }
+    private val api = mockk<SpaceXAPIService>()
+    private val mapper = mockk<LaunchpadDetailMapper>()
+    private val repository = LaunchpadDetailRepositoryImpl(api, mapper)
 
     @Test
     fun `should return networkSuccess when response is valid`() = runTest {

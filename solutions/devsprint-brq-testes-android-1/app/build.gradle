@@ -61,7 +61,6 @@ android {
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.12'
     def lifecycle_version = "2.4.1"
     def retrofit_version = "2.9.0"
     def lottieVersion = "2.8.0"
