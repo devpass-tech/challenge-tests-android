@@ -3,37 +3,37 @@ package com.devpass.spaceapp.presentation.launchpad_detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.devpass.spaceapp.domain.LaunchpadDetailUseCase
 import com.devpass.spaceapp.model.LaunchpadDetail
-import com.devpass.spaceapp.repository.launchpad.LaunchpadDetailRepository
 import com.devpass.spaceapp.utils.NetworkResult
 
-class LaunchpadDetailViewModel(
-    val repository: LaunchpadDetailRepository
+internal class LaunchpadDetailViewModel(
+    private val useCase: LaunchpadDetailUseCase
 ) : ViewModel() {
 
-    private val _launchpadDetail: MutableLiveData<LaunchpadDetailUIState> = MutableLiveData()
-    val launchpadDetailUI: LiveData<LaunchpadDetailUIState> = _launchpadDetail
+    private val _uiState: MutableLiveData<LaunchpadDetailUIState> = MutableLiveData()
+    val uiState: LiveData<LaunchpadDetailUIState> = _uiState
 
     suspend fun safeLaunchpadDetailCall(id: String) {
-        _launchpadDetail.postValue(LaunchpadDetailUIState.Loading)
+        _uiState.postValue(LaunchpadDetailUIState.Loading)
 
-        runCatching {
-            repository.fetchLaunchpad(id)
-        }.onSuccess {
-            if (it is NetworkResult.Success) {
-                _launchpadDetail.postValue(LaunchpadDetailUIState.Success(it.data))
-            }
-            if (it is NetworkResult.Error) {
-                _launchpadDetail.postValue(LaunchpadDetailUIState.Error(it.exception))
-            }
-        }.onFailure {
-            _launchpadDetail.postValue(LaunchpadDetailUIState.Error(it))
-        }
+        runCatching { useCase(id) }
+            .onSuccess(::onFetchLaunchpadDetailSuccess)
+            .onFailure(::onFetchLaunchpadDetailFailure)
     }
 
-    sealed interface LaunchpadDetailUIState {
-        object Loading : LaunchpadDetailUIState
-        data class Error(val error: Throwable) : LaunchpadDetailUIState
-        data class Success(val data: LaunchpadDetail) : LaunchpadDetailUIState
+    private fun onFetchLaunchpadDetailFailure(e: Throwable) {
+        _uiState.value = LaunchpadDetailUIState.Error(e)
+    }
+
+    private fun onFetchLaunchpadDetailSuccess(result: NetworkResult<LaunchpadDetail>) {
+        when (result) {
+            is NetworkResult.Error -> {
+                _uiState.value = LaunchpadDetailUIState.Error(result.exception)
+            }
+            is NetworkResult.Success -> {
+                _uiState.value = LaunchpadDetailUIState.Success(result.data)
+            }
+        }
     }
 }
