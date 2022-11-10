@@ -16,14 +16,10 @@ class RocketDetailsViewModel(
     private val _uiState = MutableLiveData<RocketDetailsUiState>()
     val uiState: LiveData<RocketDetailsUiState> = _uiState
 
-    init {
-        RocketDetailsUiState.Loading
-    }
-
     fun loadRocketDetails(id: String) {
         viewModelScope.launch {
+            _uiState.value = RocketDetailsUiState.Loading
             runCatching {
-                delay(3000)
                 rocketDetailRepository.fetchRocketDetail(id)
             }.onSuccess {
                 if (it is NetworkResult.Success) {
