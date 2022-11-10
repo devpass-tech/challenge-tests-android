@@ -31,7 +31,7 @@ class RocketDetailsViewModelTest{
     }
 
     @Test
-    fun `is success`(){
+    fun `return success when calledFlow`(){
         val parameter = "is_success"
 
         val observer = mockk<Observer<in RocketDetailsUiState>>(relaxed = true)
@@ -51,7 +51,7 @@ class RocketDetailsViewModelTest{
     }
 
     @Test
-    fun `is notSuccess`(){
+    fun `return not success when calledFlow`(){
         val parameter = "not_success"
         val observer = mockk<Observer<in RocketDetailsUiState>>(relaxed = true)
         rocketDetailsViewModel.uiState.observeForever(observer)
@@ -70,7 +70,7 @@ class RocketDetailsViewModelTest{
     }
 
     @Test
-    fun `is onFailure`(){
+    fun `return onFailure when calledFlow`(){
         val parameter = "not_success"
         val observer = mockk<Observer<in RocketDetailsUiState>>(relaxed = true)
         rocketDetailsViewModel.uiState.observeForever(observer)
