@@ -4,44 +4,39 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.devpass.spaceapp.domain.RocketDetailUseCase
 import com.devpass.spaceapp.model.RocketDetail
-import com.devpass.spaceapp.repository.rocket.RocketDetailRepository
 import com.devpass.spaceapp.utils.NetworkResult
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class RocketDetailsViewModel(
-    private val rocketDetailRepository: RocketDetailRepository
+internal class RocketDetailsViewModel(
+    private val useCase: RocketDetailUseCase,
 ) : ViewModel() {
+
     private val _uiState = MutableLiveData<RocketDetailsUiState>()
     val uiState: LiveData<RocketDetailsUiState> = _uiState
 
-    init {
-        RocketDetailsUiState.Loading
-    }
-
     fun loadRocketDetails(id: String) {
         viewModelScope.launch {
-            runCatching {
-                delay(3000)
-                rocketDetailRepository.fetchRocketDetail(id)
-            }.onSuccess {
-                if (it is NetworkResult.Success) {
-                    _uiState.value = RocketDetailsUiState.Success(it.data)
-                }
+            _uiState.postValue(RocketDetailsUiState.Loading)
 
-                if (it is NetworkResult.Error) {
-                    _uiState.value = RocketDetailsUiState.Error(it.exception)
-                }
-            }.onFailure {
-                _uiState.value = RocketDetailsUiState.Error(it)
-            }
+            runCatching { useCase(id) }
+                .onSuccess(::onFetchRocketDetailResponse)
+                .onFailure(::onFetchRocketDetailFailure)
         }
     }
-}
 
-sealed interface RocketDetailsUiState {
-    data class Success(val data: RocketDetail?) : RocketDetailsUiState
-    data class Error(val exception: Throwable) : RocketDetailsUiState
-    object Loading : RocketDetailsUiState
+    private fun onFetchRocketDetailFailure(e: Throwable) {
+        _uiState.value = RocketDetailsUiState.Error(e)
+    }
+
+    private fun onFetchRocketDetailResponse(result: NetworkResult<RocketDetail>) =
+        when (result) {
+            is NetworkResult.Error -> {
+                _uiState.value = RocketDetailsUiState.Error(result.exception)
+            }
+            is NetworkResult.Success -> {
+                _uiState.value = RocketDetailsUiState.Success(result.data)
+            }
+        }
 }
