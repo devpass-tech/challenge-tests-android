@@ -4,12 +4,13 @@ import com.devpass.spaceapp.data.api.response.RocketDetailResponse
 import com.devpass.spaceapp.model.RocketDetail
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.spyk
 import org.junit.Assert
 import org.junit.Test
 
 class RocketDetailMapperImplTest {
 
-    private val mapper: RocketDetailMapperImpl = mockk()
+    private val mapper: RocketDetailMapperImpl = spyk()
 
     private val rocketDetailResponse = RocketDetailResponse(
         id = "id",
