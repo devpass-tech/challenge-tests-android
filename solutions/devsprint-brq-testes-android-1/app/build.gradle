@@ -111,6 +111,7 @@ dependencies {
     implementation 'androidx.fragment:fragment-ktx:1.4.0'
 
     // TDD
+    testImplementation project(":test-util:jvm")
     testImplementation "junit:junit:$junit_version"
     testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_test_version"
     testImplementation "io.mockk:mockk:$mockk_version"
