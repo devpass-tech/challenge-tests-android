@@ -9,7 +9,7 @@ import org.koin.core.context.stopKoin
 import org.koin.core.module.Module
 
 class KoinMockTestRule(
-     val modules: List<Module>
+     private val modules: List<Module>
 ) : TestWatcher() {
 
     constructor(module: Module): this(listOf(module))
