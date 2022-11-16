@@ -16,7 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
         manifestPlaceholders = [apiKey: "$MAPS_API_KEY"]
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.devpass.spaceapp.SpaceAppTestRunner"
     }
 
     flavorDimensions "type"
@@ -57,6 +57,16 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.md'
+        exclude 'META-INF/LICENSE-notice.md'
+        exclude("META-INF/*.kotlin_module")
+    }
+
+    testOptions {
+        animationsDisabled = true
     }
 }
 
@@ -119,12 +129,13 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_test_version"
     testImplementation "androidx.arch.core:core-testing:$android_core_testing"
 
-    //debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_version"
+    androidTestImplementation "androidx.test.espresso:espresso-idling-resource:$espresso_core_version"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_core_version"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$espresso_core_version"
     androidTestImplementation "androidx.test:runner:$espresso_runner"
     androidTestImplementation "androidx.test:rules:$espresso_rule"
     androidTestImplementation 'androidx.test:core-ktx:1.5.0'
     androidTestImplementation "androidx.test.ext:junit:$junit_ext_version"
-
-
+    androidTestImplementation "io.mockk:mockk-android:$mockk_version"
 }
