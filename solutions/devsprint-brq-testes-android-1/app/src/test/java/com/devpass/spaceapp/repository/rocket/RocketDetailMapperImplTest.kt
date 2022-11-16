@@ -10,8 +10,6 @@ import org.junit.Test
 
 class RocketDetailMapperImplTest {
 
-    private val mapper: RocketDetailMapperImpl = spyk()
-
     private val rocketDetailResponse = RocketDetailResponse(
         id = "id",
         name = "name",
@@ -30,13 +28,13 @@ class RocketDetailMapperImplTest {
     @Test
     fun `transform the rocket detailed response model into the rocket model`() {
         //Given
-        every { mapper.transformToRocketModel(rocketDetailResponse) } returns rocketDetail
+        val mapper = RocketDetailMapperImpl()
 
         //When
         val result = mapper.transformToRocketModel(rocketDetailResponse)
 
         //Then
-        Assert.assertSame(rocketDetail, result)
+        Assert.assertEquals(rocketDetail, result)
 
     }
 }
