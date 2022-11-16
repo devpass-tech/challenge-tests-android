@@ -5,6 +5,8 @@ import androidx.lifecycle.Observer
 import com.devpass.spaceapp.MainDispatcherRule
 import com.devpass.spaceapp.domain.RocketDetailUseCase
 import com.devpass.spaceapp.model.RocketDetail
+import com.devpass.spaceapp.presentation.TestConstants.PARAMETER_ERROR_ID
+import com.devpass.spaceapp.presentation.TestConstants.PARAMETER_SUCCESS_ID
 import com.devpass.spaceapp.utils.NetworkResult
 import io.mockk.*
 import kotlinx.coroutines.test.runTest
@@ -30,7 +32,7 @@ class RocketDetailsViewModelTest {
     @Test
     fun loadRocketDetails_withValidRocketId_shouldExecuteSuccessFlow() = runTest {
         // Arrange
-        val parameter = "success-id"
+        val parameter = PARAMETER_SUCCESS_ID
 
         subject.uiState.observeForever(uiStateTarget)
         val rocketDetail = NetworkResult.Success<RocketDetail>(mockk())
@@ -52,7 +54,7 @@ class RocketDetailsViewModelTest {
     @Test
     fun loadRocketDetails_withValidRocketIdCalledTwice_shouldExecuteSuccessFlow() = runTest {
         // Arrange
-        val parameter = "success-id"
+        val parameter = PARAMETER_SUCCESS_ID
 
         subject.uiState.observeForever(uiStateTarget)
         val rocketDetail = NetworkResult.Success<RocketDetail>(mockk())
@@ -77,7 +79,7 @@ class RocketDetailsViewModelTest {
     @Test
     fun loadRocketDetails_withValidRocketIdAndError_shouldExecuteErrorFlow() = runTest {
         // Arrange
-        val parameter = "error-id"
+        val parameter = PARAMETER_ERROR_ID
 
         subject.uiState.observeForever(uiStateTarget)
         val rocketDetail = NetworkResult.Error<RocketDetail>(Exception())
@@ -99,7 +101,7 @@ class RocketDetailsViewModelTest {
     @Test
     fun loadRocketDetails_withIOError_shouldExecuteErrorFlow() = runTest {
         // Arrange
-        val parameter = "error-id"
+        val parameter = PARAMETER_ERROR_ID
 
         subject.uiState.observeForever(uiStateTarget)
         val rocketDetail = NetworkResult.Error<RocketDetail>(RocketDetailException(parameter))
@@ -121,7 +123,7 @@ class RocketDetailsViewModelTest {
     @Test
     fun loadRocketDetails_withOtherState_shouldDo() = runTest {
         // Arrange
-        val parameter = "success-id"
+        val parameter = PARAMETER_SUCCESS_ID
 
         subject.uiState.observeForever(uiStateTarget)
         val rocketDetail = NetworkResult.Success<RocketDetail>(mockk())
