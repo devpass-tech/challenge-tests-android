@@ -7,10 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.devpass.spaceapp.model.Launch
 import com.devpass.spaceapp.repository.launches.FetchLaunchesRepository
 import com.devpass.spaceapp.utils.NetworkResult
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LaunchListViewModel(
+    val dispatcher: CoroutineDispatcher,
     val repository: FetchLaunchesRepository,
 ) : ViewModel() {
 
@@ -21,8 +24,10 @@ class LaunchListViewModel(
         getLaunches()
     }
 
-    fun getLaunches() = viewModelScope.launch {
-        safeLaunchesCall()
+    fun getLaunches() {
+        viewModelScope.launch(dispatcher) {
+            safeLaunchesCall()
+        }
     }
 
     private suspend fun safeLaunchesCall() {
