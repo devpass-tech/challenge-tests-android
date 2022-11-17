@@ -27,7 +27,6 @@ class LaunchListViewModel(
 
     private suspend fun safeLaunchesCall() {
         _launches.postValue(LaunchListUIState.Loading)
-        delay(3000)
 
         runCatching {
             repository.fetchLaunches()
