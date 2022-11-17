@@ -76,7 +76,7 @@ dependencies {
     def lottieVersion = "2.8.0"
     def koin_version = "3.2.1"
     def mockk_version = "1.13.2"
-    def coroutines_test_version = "1.6.4"
+    def coroutines = "1.6.4"
     def junit_ext_version = "1.1.4"
     def mockito_core_version = "4.8.1"
     def junit_version = "4.8.1"
@@ -86,6 +86,8 @@ dependencies {
     def kotlin_test_version = "1.7.20"
     def android_core_testing = "2.1.0"
     def fragment_version = "1.5.4"
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.3.0'
@@ -126,9 +128,11 @@ dependencies {
     testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_test_version"
     testImplementation "io.mockk:mockk:$mockk_version"
     testImplementation "org.mockito:mockito-core:$mockito_core_version"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_test_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines"
     testImplementation "androidx.arch.core:core-testing:$android_core_testing"
 
+    androidTestImplementation project(":test-util:jvm")
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_version"
     androidTestImplementation "androidx.test.espresso:espresso-idling-resource:$espresso_core_version"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_core_version"

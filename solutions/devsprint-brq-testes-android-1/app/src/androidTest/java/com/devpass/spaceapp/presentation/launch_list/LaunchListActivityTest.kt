@@ -4,11 +4,13 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.intent.rule.IntentsTestRule
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.devpass.spaceapp.KoinMockTestRule
+import com.devpass.spaceapp.MainDispatcherRule
 import com.devpass.spaceapp.R
 import com.devpass.spaceapp.model.Launch
 import com.devpass.spaceapp.presentation.launch.LaunchNavigator
@@ -17,6 +19,9 @@ import com.devpass.spaceapp.utils.NetworkResult
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -26,6 +31,9 @@ import org.koin.dsl.module
 @RunWith(AndroidJUnit4::class)
 class LaunchListActivityTest {
 
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule(StandardTestDispatcher())
+
     private val launchNavigator = mockk<LaunchNavigator>(relaxed = true)
     val repository = mockk<FetchLaunchesRepository>()
 
@@ -33,7 +41,7 @@ class LaunchListActivityTest {
     val kointestRule = KoinMockTestRule(
         module {
             viewModel {
-                LaunchListViewModel(repository)
+                LaunchListViewModel(mainDispatcherRule.dispatcher, repository)
             }
 
             factory { launchNavigator }
@@ -41,11 +49,17 @@ class LaunchListActivityTest {
     )
 
     @Test
-    fun whenScreenLoaded_andClickOn20thElement_ShouldOpenNextScreen() {
-        prepareMocks()
+    fun whenScreenLoaded_andClickOn20thElement_ShouldOpenNextScreen() = runTest {
+        prepareMocks(
+            apiResponse = {
+                NetworkResult.Success(prepareListOfLaunches())
+            }
+        )
 
         launchActivity<LaunchListActivity>()
 
+        advanceUntilIdle()
+        
         onView(withId(R.id.rv_launches))
             .perform(RecyclerViewActions.actionOnItemAtPosition<ViewHolder>(20, click()))
 
@@ -66,12 +80,24 @@ class LaunchListActivityTest {
         }
     }
 
-    private fun prepareMocks() {
-        coEvery { repository.fetchLaunches() } answers {
-            NetworkResult.Success(
-                prepareListOfLaunches()
-            )
-        }
+    @Test
+    fun whenScreenInLoading_ShouldDisplayLoadingView() {
+        prepareMocks(
+            apiResponse = {
+                NetworkResult.Success(prepareListOfLaunches())
+            }
+        )
+
+        launchActivity<LaunchListActivity>()
+
+        onView(withId(R.id.lottie_rocket_loading))
+            .check(matches(isDisplayed()))
+    }
+
+    private fun prepareMocks(
+        apiResponse: () -> NetworkResult<List<Launch>>,
+    ) {
+        coEvery { repository.fetchLaunches() } returns apiResponse()
     }
 
     private fun prepareListOfLaunches() = buildList {
