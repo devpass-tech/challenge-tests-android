@@ -5,84 +5,79 @@ import com.devpass.spaceapp.data.api.response.RocketDetailResponse
 import com.devpass.spaceapp.model.RocketDetail
 import com.devpass.spaceapp.utils.NetworkResult
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.amshove.kluent.`should be equal to`
-import org.junit.Before
 import org.junit.Test
-import org.mockito.ArgumentMatchers.anyString
+import kotlin.test.assertEquals
 
 @ExperimentalCoroutinesApi
 class RocketDetailRepositoryImplTest {
 
-    private val serviceMock: SpaceXAPIService = mockk()
-    private val mapperMock: RocketDetailMapper = mockk()
-    private lateinit var repository: RocketDetailRepository
-
-    @Before
-    fun setUp() {
-        repository = RocketDetailRepositoryImpl(serviceMock, mapperMock)
-    }
+    private val spaceXAPIService = mockk<SpaceXAPIService>(relaxed = true)
+    private val rocketDetailMapper = mockk<RocketDetailMapper>(relaxed = true)
+    private val subject = RocketDetailRepositoryImpl(spaceXAPIService, rocketDetailMapper)
 
     @Test
     fun `should be return NetworkResult success when response ok`() = runTest {
-        val mockResponseOk = mockResponseOk()
-        val mockDomainFromResponseOk = mockDomainFromResponseOk()
-        val expectedResult = NetworkResult.Success(mockDomainFromResponseOk)
+        val parameter = "parameter-id"
+        val rocketDetailResponse = mockk<RocketDetailResponse>()
+        val rocketDetail = mockk<RocketDetail>()
+        val expectedResultRocketDetail = NetworkResult.Success(rocketDetail)
 
         coEvery {
-            serviceMock.fetchRocketDetails(anyString())
-        } returns mockResponseOk
+            spaceXAPIService.fetchRocketDetails(id = parameter)
+        } returns rocketDetailResponse
 
         every {
-            mapperMock.transformToRocketModel(mockResponseOk)
-        } returns mockDomainFromResponseOk
+            rocketDetailMapper.transformToRocketModel(rocketDetailResponse)
+        } returns rocketDetail
 
-        val result = repository.fetchRocketDetail(anyString())
+        val resultRocketDetail = subject.fetchRocketDetail(id = parameter)
 
-        result `should be equal to` expectedResult
+        coVerify(exactly = 1) {
+            spaceXAPIService.fetchRocketDetails(id = parameter)
+        }
+
+        assertEquals(resultRocketDetail, expectedResultRocketDetail)
     }
 
     @Test(expected = RuntimeException::class)
     fun `should be return NetworkResult error when response error`() = runTest {
-        val mockResponseError = mockResponseError()
-        val expectedResult = NetworkResult.Error<Nothing>(mockResponseError)
+        val parameter = "parameter-id"
+        val errorResponse = mockk<ErrorResponseRocketDetail>()
+        val expectedResultRocketDetail = NetworkResult.Error<RocketDetail>(errorResponse)
 
         coEvery {
-            serviceMock.fetchRocketDetails(anyString())
-        } throws mockResponseError
+            spaceXAPIService.fetchRocketDetails(id = parameter)
+        } throws errorResponse
 
-        val result = repository.fetchRocketDetail(anyString())
+        val resultRocketDetail = subject.fetchRocketDetail(id = parameter)
 
-        result `should be equal to` expectedResult
+        coVerify(exactly = 1) {
+            spaceXAPIService.fetchRocketDetails(id = parameter)
+        }
+
+        assertEquals(resultRocketDetail, expectedResultRocketDetail)
     }
 
     @Test(expected = RuntimeException::class)
     fun `should be throws RuntimeException when response error`() = runTest {
-        val mockResponseError = mockResponseError()
+        val parameter = "parameter-id"
+        val errorResponse = mockk<ErrorResponseRocketDetail>()
 
         coEvery {
-            serviceMock.fetchRocketDetails(anyString())
-        } throws mockResponseError
+            spaceXAPIService.fetchRocketDetails(id = parameter)
+        } throws errorResponse
 
-        repository.fetchRocketDetail(anyString())
+        subject.fetchRocketDetail(id = parameter)
+
+        coVerify(exactly = 1) {
+            spaceXAPIService.fetchRocketDetails(id = parameter)
+        }
     }
 
-    private fun mockResponseOk() = RocketDetailResponse(
-        "",
-        "",
-        "",
-        emptyList()
-    )
-
-    private fun mockResponseError() = IllegalArgumentException(anyString())
-
-    private fun mockDomainFromResponseOk() = RocketDetail(
-        "",
-        "",
-        "",
-        ""
-    )
+    class ErrorResponseRocketDetail : Exception()
 }
