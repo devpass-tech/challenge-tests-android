@@ -8,13 +8,11 @@ import com.devpass.spaceapp.model.Launch
 import com.devpass.spaceapp.repository.launches.FetchLaunchesRepository
 import com.devpass.spaceapp.utils.NetworkResult
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LaunchListViewModel(
-    val dispatcher: CoroutineDispatcher,
-    val repository: FetchLaunchesRepository,
+    private val dispatcher: CoroutineDispatcher,
+    private val repository: FetchLaunchesRepository,
 ) : ViewModel() {
 
     private val _launches: MutableLiveData<LaunchListUIState> = MutableLiveData()
