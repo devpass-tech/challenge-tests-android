@@ -2,89 +2,159 @@ package com.devpass.spaceapp.presentation.rocket_detail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.devpass.spaceapp.MainDispatcherRule
+import com.devpass.spaceapp.domain.RocketDetailUseCase
 import com.devpass.spaceapp.model.RocketDetail
-import com.devpass.spaceapp.repository.rocket.RocketDetailRepository
 import com.devpass.spaceapp.utils.NetworkResult
-import io.mockk.coEvery
-import io.mockk.mockk
-import io.mockk.verifySequence
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.setMain
-import org.junit.Assert.*
-import org.junit.Before
+import io.mockk.*
+import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 
-@ExperimentalCoroutinesApi
-class RocketDetailsViewModelTest{
+class RocketDetailsViewModelTest {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
-    private val rocketDetailRepository = mockk<RocketDetailRepository>()
-    private val rocketDetailsViewModel = RocketDetailsViewModel(rocketDetailRepository)
 
-    @Before
-    fun setUp() {
-        Dispatchers.setMain(UnconfinedTestDispatcher())
-    }
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
+
+    private val rocketDetailUseCase = mockk<RocketDetailUseCase>()
+
+    private val uiStateTarget = mockk<Observer<in RocketDetailsUiState>>(relaxed = true)
+
+    private val subject = RocketDetailsViewModel(
+        rocketDetailUseCase,
+    )
 
     @Test
-    fun `return success when calledFlow`(){
-        val parameter = "is_success"
+    fun loadRocketDetails_withValidRocketId_shouldExecuteSuccessFlow() = runTest {
+        // Arrange
+        val parameter = "success-id"
 
-        val observer = mockk<Observer<in RocketDetailsUiState>>(relaxed = true)
-        rocketDetailsViewModel.uiState.observeForever(observer)
+        subject.uiState.observeForever(uiStateTarget)
+        val rocketDetail = NetworkResult.Success<RocketDetail>(mockk())
 
-        val data = mockk<RocketDetail>()
-        coEvery {
-            rocketDetailRepository.fetchRocketDetail(parameter)
-        }returns NetworkResult.Success(data)
+        prepare(
+            rocketDetail = rocketDetail
+        )
 
-        rocketDetailsViewModel.loadRocketDetails(parameter)
+        // Act
+        subject.loadRocketDetails(parameter)
 
+        // Assert
         verifySequence {
-            observer.onChanged(RocketDetailsUiState.Loading)
-            observer.onChanged(RocketDetailsUiState.Success(data))
+            uiStateTarget.onChanged(RocketDetailsUiState.Loading)
+            uiStateTarget.onChanged(RocketDetailsUiState.Success(rocketDetail.data))
         }
     }
 
     @Test
-    fun `return not success when calledFlow`(){
-        val parameter = "not_success"
-        val observer = mockk<Observer<in RocketDetailsUiState>>(relaxed = true)
-        rocketDetailsViewModel.uiState.observeForever(observer)
+    fun loadRocketDetails_withValidRocketIdCalledTwice_shouldExecuteSuccessFlow() = runTest {
+        // Arrange
+        val parameter = "success-id"
 
-        val exception = mockk<Throwable>()
-        coEvery {
-            rocketDetailRepository.fetchRocketDetail(parameter)
-        }returns NetworkResult.Error(exception)
+        subject.uiState.observeForever(uiStateTarget)
+        val rocketDetail = NetworkResult.Success<RocketDetail>(mockk())
 
-        rocketDetailsViewModel.loadRocketDetails(parameter)
+        prepare(
+            rocketDetail = rocketDetail
+        )
 
+        // Act
+        subject.loadRocketDetails(parameter)
+        subject.loadRocketDetails(parameter)
+
+        // Assert
         verifySequence {
-            observer.onChanged(RocketDetailsUiState.Loading)
-            observer.onChanged(RocketDetailsUiState.Error(exception))
+            uiStateTarget.onChanged(RocketDetailsUiState.Loading)
+            uiStateTarget.onChanged(RocketDetailsUiState.Success(rocketDetail.data))
+            uiStateTarget.onChanged(RocketDetailsUiState.Loading)
+            uiStateTarget.onChanged(RocketDetailsUiState.Success(rocketDetail.data))
         }
     }
 
     @Test
-    fun `return onFailure when calledFlow`(){
-        val parameter = "not_success"
-        val observer = mockk<Observer<in RocketDetailsUiState>>(relaxed = true)
-        rocketDetailsViewModel.uiState.observeForever(observer)
+    fun loadRocketDetails_withValidRocketIdAndError_shouldExecuteErrorFlow() = runTest {
+        // Arrange
+        val parameter = "error-id"
 
-        val throwable = Throwable()
-        coEvery {
-            rocketDetailRepository.fetchRocketDetail(parameter)
-        }throws throwable
+        subject.uiState.observeForever(uiStateTarget)
+        val rocketDetail = NetworkResult.Error<RocketDetail>(Exception())
 
-        rocketDetailsViewModel.loadRocketDetails(parameter)
+        prepare(
+            rocketDetail = rocketDetail
+        )
 
+        // Act
+        subject.loadRocketDetails(parameter)
+
+        // Assert
         verifySequence {
-            observer.onChanged(RocketDetailsUiState.Loading)
-            observer.onChanged(RocketDetailsUiState.Error(throwable))
+            uiStateTarget.onChanged(RocketDetailsUiState.Loading)
+            uiStateTarget.onChanged(RocketDetailsUiState.Error(rocketDetail.exception))
         }
     }
+
+    @Test
+    fun loadRocketDetails_withIOError_shouldExecuteErrorFlow() = runTest {
+        // Arrange
+        val parameter = "error-id"
+
+        subject.uiState.observeForever(uiStateTarget)
+        val rocketDetail = NetworkResult.Error<RocketDetail>(RocketDetailException(parameter))
+
+        prepare(
+            ioError = true, rocketDetail = rocketDetail
+        )
+
+        // Act
+        subject.loadRocketDetails(parameter)
+
+        // Assert
+        verifySequence {
+            uiStateTarget.onChanged(RocketDetailsUiState.Loading)
+            uiStateTarget.onChanged(RocketDetailsUiState.Error(RocketDetailException(parameter)))
+        }
+    }
+
+    @Test
+    fun loadRocketDetails_withOtherState_shouldDo() = runTest {
+        // Arrange
+        val parameter = "success-id"
+
+        subject.uiState.observeForever(uiStateTarget)
+        val rocketDetail = NetworkResult.Success<RocketDetail>(mockk())
+
+        prepare(
+            rocketDetail = rocketDetail
+        )
+
+        // Act
+        subject.loadRocketDetails(parameter)
+
+        // Assert
+        verifySequence {
+            uiStateTarget.onChanged(RocketDetailsUiState.Loading)
+            uiStateTarget.onChanged(RocketDetailsUiState.Success(rocketDetail.data))
+        }
+    }
+
+    fun prepare(
+        ioError: Boolean = false,
+        rocketDetail: NetworkResult<RocketDetail>,
+    ) {
+        if (ioError) {
+            coEvery { rocketDetailUseCase(any()) } answers {
+
+                throw RocketDetailException(firstArg() as String)
+            }
+        } else {
+            coEvery { rocketDetailUseCase(any()) } returns rocketDetail
+        }
+    }
+
+    data class RocketDetailException(
+        val id: String,
+    ) : Exception()
 }
