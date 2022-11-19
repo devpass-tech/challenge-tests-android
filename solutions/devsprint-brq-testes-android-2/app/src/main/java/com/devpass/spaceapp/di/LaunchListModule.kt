@@ -1,5 +1,7 @@
 package com.devpass.spaceapp.di
 
+import com.devpass.spaceapp.presentation.launch.LaunchNavigator
+import com.devpass.spaceapp.presentation.launch.LaunchNavigatorImpl
 import com.devpass.spaceapp.presentation.launch_list.LaunchListViewModel
 import com.devpass.spaceapp.repository.launches.FetchLaunchesRepository
 import com.devpass.spaceapp.repository.launches.FetchLaunchesRepositoryImpl
@@ -15,4 +17,8 @@ val launchListModule = module {
 
     viewModel { LaunchListViewModel(get()) }
 
+}
+
+val launchNavigatorModule = module {
+    single<LaunchNavigator> { LaunchNavigatorImpl() }
 }

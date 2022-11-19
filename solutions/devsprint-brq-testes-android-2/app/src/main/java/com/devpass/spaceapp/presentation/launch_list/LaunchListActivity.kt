@@ -6,12 +6,16 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewbinding.BuildConfig
 import com.devpass.spaceapp.databinding.ActivityLaunchListBinding
 import com.devpass.spaceapp.R
 import com.devpass.spaceapp.presentation.launch.LaunchActivity
+import com.devpass.spaceapp.presentation.launch.LaunchNavigator
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LaunchListActivity : AppCompatActivity() {
@@ -20,6 +24,7 @@ class LaunchListActivity : AppCompatActivity() {
     private lateinit var adapter: LaunchListAdapter
 
     private val viewModel: LaunchListViewModel by viewModel()
+    private val launchNavigator  by inject<LaunchNavigator>()
 
     private val alertDialogError by lazy {
         AlertDialog.Builder(this@LaunchListActivity).apply {
@@ -39,6 +44,10 @@ class LaunchListActivity : AppCompatActivity() {
         binding = ActivityLaunchListBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
+
+        if(BuildConfig.DEBUG){
+            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
 
         setupTitle()
         setupRecycleView()
@@ -86,9 +95,10 @@ class LaunchListActivity : AppCompatActivity() {
     private fun setupRecycleView() {
         adapter = LaunchListAdapter {
             Log.i(TAG, "on click $it")
-            startActivity(Intent(baseContext, LaunchActivity::class.java).also { i ->
-                i.putExtra(LAUNCH_MODEL, it)
-            })
+            launchNavigator.openLaunch(baseContext,it)
+//            startActivity(Intent(baseContext, LaunchActivity::class.java).also { i ->
+//                i.putExtra(LAUNCH_MODEL, it)
+//            })
         }
         binding.rvLaunches.adapter = adapter
         binding.rvLaunches.layoutManager = LinearLayoutManager(this)
