@@ -87,7 +87,7 @@ class LaunchListActivity : AppCompatActivity() {
     private fun setupRecycleView() {
         adapter = LaunchListAdapter {
             Log.i(TAG, "on click $it")
-            launchNavigator.openLaunch(baseContext, it)
+            launchNavigator.openLaunch(this, it)
         }
         binding.rvLaunches.adapter = adapter
         binding.rvLaunches.layoutManager = LinearLayoutManager(this)
