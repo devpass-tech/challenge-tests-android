@@ -55,8 +55,8 @@ class RocketFragment : Fragment() {
     private fun observeUIState() {
         viewModel.uiState.observe(viewLifecycleOwner) {
             when (it) {
-                is RocketDetailsUiState.Error -> TODO()
-                RocketDetailsUiState.Loading -> TODO()
+                is RocketDetailsUiState.Error -> {}//TODO()
+                RocketDetailsUiState.Loading -> {}//TODO()
                 is RocketDetailsUiState.Success -> {
                     binding.tvTextCardRocket.text = it.data?.description
                     binding.tvTitleCardRocket.text = it.data?.name
