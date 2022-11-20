@@ -1,19 +1,15 @@
 package com.devpass.spaceapp.presentation.launch_list
 
 import android.content.DialogInterface
-import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewbinding.BuildConfig
-import com.devpass.spaceapp.databinding.ActivityLaunchListBinding
 import com.devpass.spaceapp.R
-import com.devpass.spaceapp.presentation.launch.LaunchActivity
+import com.devpass.spaceapp.databinding.ActivityLaunchListBinding
 import com.devpass.spaceapp.presentation.launch.LaunchNavigator
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -44,10 +40,6 @@ class LaunchListActivity : AppCompatActivity() {
         binding = ActivityLaunchListBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
-
-        if(BuildConfig.DEBUG){
-            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        }
 
         setupTitle()
         setupRecycleView()
@@ -95,10 +87,7 @@ class LaunchListActivity : AppCompatActivity() {
     private fun setupRecycleView() {
         adapter = LaunchListAdapter {
             Log.i(TAG, "on click $it")
-            launchNavigator.openLaunch(baseContext,it)
-//            startActivity(Intent(baseContext, LaunchActivity::class.java).also { i ->
-//                i.putExtra(LAUNCH_MODEL, it)
-//            })
+            launchNavigator.openLaunch(this,it)
         }
         binding.rvLaunches.adapter = adapter
         binding.rvLaunches.layoutManager = LinearLayoutManager(this)
@@ -106,6 +95,5 @@ class LaunchListActivity : AppCompatActivity() {
 
     companion object {
         const val TAG = "LaunchListActivity"
-        private const val LAUNCH_MODEL = "LAUNCH_MODEL"
     }
 }
