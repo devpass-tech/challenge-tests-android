@@ -6,8 +6,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.devpass.spaceapp.KoinMockTestRule
 import com.devpass.spaceapp.MainDispatcherRule
@@ -19,6 +18,7 @@ import com.devpass.spaceapp.utils.NetworkResult
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
@@ -28,6 +28,7 @@ import org.junit.runner.RunWith
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
+@ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 class LaunchListActivityTest {
 
@@ -35,10 +36,10 @@ class LaunchListActivityTest {
     val mainDispatcherRule = MainDispatcherRule(StandardTestDispatcher())
 
     private val launchNavigator = mockk<LaunchNavigator>(relaxed = true)
-    val repository = mockk<FetchLaunchesRepository>()
+    private val repository = mockk<FetchLaunchesRepository>()
 
     @get:Rule
-    val kointestRule = KoinMockTestRule(
+    val koinTestRule = KoinMockTestRule(
         module {
             viewModel {
                 LaunchListViewModel(mainDispatcherRule.dispatcher, repository)
@@ -49,7 +50,8 @@ class LaunchListActivityTest {
     )
 
     @Test
-    fun whenScreenLoaded_andClickOn20thElement_ShouldOpenNextScreen() = runTest {
+    fun whenScreenLoaded_andClickOn10thElement_shouldOpenNextScreen() = runTest {
+
         prepareMocks(
             apiResponse = {
                 NetworkResult.Success(prepareListOfLaunches())
@@ -59,7 +61,40 @@ class LaunchListActivityTest {
         launchActivity<LaunchListActivity>()
 
         advanceUntilIdle()
-        
+
+        onView(withId(R.id.rv_launches))
+            .perform(RecyclerViewActions.actionOnItemAtPosition<ViewHolder>(10, click()))
+
+        verify(exactly = 1) {
+            launchNavigator.openLaunch(
+                any(),
+                Launch(
+                    name = "FalconSat#10",
+                    number = "10",
+                    date = "março 24, 2006",
+                    status = "Success",
+                    image = "https://images2.imgbox.com/94/f2/NN6Ph45r_o.png",
+                    rocketId = "5e9d0d95eda69955f709d1eb",
+                    details = "Engine failure at 33 seconds and loss of vehicle",
+                    launchpadId = "5e9e4502f5090995de566f86"
+                )
+            )
+        }
+    }
+
+    @Test
+    fun whenScreenLoaded_andClickOn20thElement_ShouldOpenNextScreen() = runTest {
+
+        prepareMocks(
+            apiResponse = {
+                NetworkResult.Success(prepareListOfLaunches())
+            }
+        )
+
+        launchActivity<LaunchListActivity>()
+
+        advanceUntilIdle()
+
         onView(withId(R.id.rv_launches))
             .perform(RecyclerViewActions.actionOnItemAtPosition<ViewHolder>(20, click()))
 
@@ -82,6 +117,7 @@ class LaunchListActivityTest {
 
     @Test
     fun whenScreenInLoading_ShouldDisplayLoadingView() {
+
         prepareMocks(
             apiResponse = {
                 NetworkResult.Success(prepareListOfLaunches())
@@ -101,6 +137,7 @@ class LaunchListActivityTest {
     }
 
     private fun prepareListOfLaunches() = buildList {
+
         repeat(30) {
             val item = Launch(
                 name = "FalconSat#$it",
@@ -115,6 +152,5 @@ class LaunchListActivityTest {
 
             add(item)
         }
-
     }
 }
