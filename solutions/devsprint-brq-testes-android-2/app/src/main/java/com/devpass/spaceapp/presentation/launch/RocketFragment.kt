@@ -39,7 +39,7 @@ class RocketFragment : Fragment() {
         }
 
         with(binding) {
-            cardView.setOnClickListener {
+            cardViewRocket.setOnClickListener {
                 val intent = Intent(requireContext(), RocketDetailsActivity::class.java).apply {
                     putExtra(ARG_ROCKET, rocketId)
                 }
@@ -55,8 +55,8 @@ class RocketFragment : Fragment() {
     private fun observeUIState() {
         viewModel.uiState.observe(viewLifecycleOwner) {
             when (it) {
-                is RocketDetailsUiState.Error -> TODO()
-                RocketDetailsUiState.Loading -> TODO()
+                is RocketDetailsUiState.Error -> ""
+                is RocketDetailsUiState.Loading -> ""
                 is RocketDetailsUiState.Success -> {
                     binding.tvTextCardRocket.text = it.data?.description
                     binding.tvTitleCardRocket.text = it.data?.name
