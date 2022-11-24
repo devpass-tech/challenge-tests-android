@@ -5,7 +5,10 @@ import com.devpass.spaceapp.model.RocketDetail
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 
+@RunWith(RobolectricTestRunner::class)
 internal class RocketDetailMapperImplTest {
     private lateinit var mapper: RocketDetailMapper
 
