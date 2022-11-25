@@ -7,7 +7,7 @@
     tools:context=".presentation.launch.RocketFragment">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/cardViewRocket"
         android:layout_width="@dimen/width_card"
         android:layout_height="@dimen/height_card_rocket"
         android:layout_gravity="center_horizontal"
