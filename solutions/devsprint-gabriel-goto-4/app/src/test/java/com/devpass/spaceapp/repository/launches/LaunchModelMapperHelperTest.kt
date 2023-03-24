@@ -5,7 +5,7 @@ import com.devpass.spaceapp.data.api.response.Links
 import com.devpass.spaceapp.data.api.response.Patch
 import com.devpass.spaceapp.model.Launch
 
-object LaunchModelMapperHelperTest{
+object LaunchModelMapperHelperTest {
 
     val response = LaunchesResponse(
         date = "2020-05-30T19:22:00.000Z",
@@ -15,11 +15,12 @@ object LaunchModelMapperHelperTest{
         rocketId = "RocketId",
         details = "Details",
         launchpadId = "LaunchpadId",
-        links = Links(Patch(small="small"))
+        links = Links(Patch(small = "small"))
     )
+
     val launch = Launch(
         date = "May 30, 2020",
-        name = "Rocket" ,
+        name = "Rocket",
         number = "1",
         status = "Success",
         rocketId = "RocketId",
@@ -36,11 +37,12 @@ object LaunchModelMapperHelperTest{
         rocketId = "RocketId",
         details = "Details",
         launchpadId = "LaunchpadId",
-        links = Links(Patch(small="small"))
+        links = Links(Patch(small = "small"))
     )
+
     val launchStatusSuccess = Launch(
         date = "May 30, 2020",
-        name = "Rocket" ,
+        name = "Rocket",
         number = "1",
         status = "Success",
         rocketId = "RocketId",
@@ -57,11 +59,12 @@ object LaunchModelMapperHelperTest{
         rocketId = "RocketId",
         details = "Details",
         launchpadId = "LaunchpadId",
-        links = Links(Patch(small="small"))
+        links = Links(Patch(small = "small"))
     )
+
     val launchStatusFail = Launch(
         date = "May 30, 2020",
-        name = "Rocket" ,
+        name = "Rocket",
         number = "1",
         status = "Fail",
         rocketId = "RocketId",
@@ -78,11 +81,12 @@ object LaunchModelMapperHelperTest{
         rocketId = "RocketId",
         details = "",
         launchpadId = "LaunchpadId",
-        links = Links(Patch(small="small"))
+        links = Links(Patch(small = "small"))
     )
+
     val launchDetails = Launch(
         date = "May 30, 2020",
-        name = "Rocket" ,
+        name = "Rocket",
         number = "1",
         status = "Success",
         rocketId = "RocketId",
