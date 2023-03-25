@@ -7,11 +7,15 @@ import androidx.lifecycle.viewModelScope
 import com.devpass.spaceapp.model.Launch
 import com.devpass.spaceapp.repository.launches.FetchLaunchesRepository
 import com.devpass.spaceapp.utils.NetworkResult
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+// UI (fragment/activity/view/composable) -> ViewModel -> Repository -(mappers)-> Api (retrofit)
+//------>
 class LaunchListViewModel(
-    val repository: FetchLaunchesRepository,
+    private val repository: FetchLaunchesRepository,
+    private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val _launches: MutableLiveData<LaunchListUIState> = MutableLiveData()
@@ -21,13 +25,12 @@ class LaunchListViewModel(
         getLaunches()
     }
 
-    fun getLaunches() = viewModelScope.launch {
+    fun getLaunches() = viewModelScope.launch(dispatcher) {
         safeLaunchesCall()
     }
 
     private suspend fun safeLaunchesCall() {
         _launches.postValue(LaunchListUIState.Loading)
-        delay(3000)
 
         runCatching {
             repository.fetchLaunches()
