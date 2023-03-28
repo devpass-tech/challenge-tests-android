@@ -1,15 +1,15 @@
 package com.devpass.spaceapp.repository.launchpad
 
+import com.devpass.spaceapp.FakeLaunchpadDetail.fakeLaunchpadDetail
+import com.devpass.spaceapp.FakeLaunchpadDetail.fakeLaunchpadDetailResponse
 import com.devpass.spaceapp.data.api.SpaceXAPIService
-import com.devpass.spaceapp.fakeLaunchpadDetail
-import com.devpass.spaceapp.fakeLaunchpadDetailResponse
 import com.devpass.spaceapp.utils.NetworkResult
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import junit.framework.TestCase
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class LaunchpadDetailRepositoryImplTest {
@@ -41,13 +41,13 @@ class LaunchpadDetailRepositoryImplTest {
 
             //THEN
             coVerify { api.fetchLaunchpadDetails(ID) }
-            TestCase.assertEquals(expected, result)
+            assertEquals(expected, result)
 
         }
 
     }
 
-    @Test(expected = Exception::class)
+    @Test(expected = RuntimeException::class)
     fun `GIVEN LaunchpadDetailResponse WHEN fetchLaunchpad is called THEN return a NetworkResult error`() {
         runTest {
             //GIVEN
@@ -62,7 +62,7 @@ class LaunchpadDetailRepositoryImplTest {
 
             //THEN
             coVerify { api.fetchLaunchpadDetails(ID) }
-            TestCase.assertEquals(expected, result)
+            assertEquals(expected, result)
         }
     }
 
