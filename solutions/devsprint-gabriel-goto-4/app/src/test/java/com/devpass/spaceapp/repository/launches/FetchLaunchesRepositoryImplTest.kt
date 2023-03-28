@@ -44,7 +44,7 @@ class FetchLaunchesRepositoryImplTest {
         }
     }
 
-    @Test(expected = Exception::class)
+    @Test(expected = RuntimeException::class)
     fun `GIVEN FetchLaunchesRepositoryImpl WHEN fetchLaunches is called THEN throws a response body error`() {
         runTest {
             val body = fakeQueryParams
