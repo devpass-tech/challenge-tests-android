@@ -1,6 +1,6 @@
 package com.devpass.spaceapp.presentation.rocket_detail
 
-import com.devpass.spaceapp.faker.RocketDetailsViewModelFake.FakeRocketDetailsViewModel.fakeRocketDetail
+import com.devpass.spaceapp.faker.FakeRocketDetailsViewModel.fakeRocketDetail
 import com.devpass.spaceapp.repository.rocket.RocketDetailRepository
 import com.devpass.spaceapp.utils.NetworkResult
 import io.mockk.coEvery
