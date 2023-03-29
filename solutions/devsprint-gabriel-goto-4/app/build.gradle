@@ -89,7 +89,7 @@ dependencies {
 
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.13.2'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
+    kapt 'com.github.bumptech.glide:compiler:4.13.2'
 
     // Lottie
     implementation "com.airbnb.android:lottie:$lottieVersion"
@@ -98,13 +98,13 @@ dependencies {
     implementation "io.insert-koin:koin-core:$koin_version"
     implementation "io.insert-koin:koin-android:$koin_version"
 
-
     // Fragment KTX
     implementation 'androidx.fragment:fragment-ktx:1.4.0'
 
-    testImplementation "io.mockk:mockk:1.12.0"
+    // Mockk
+    def mockkVersion = "1.13.4"
+    testImplementation "io.mockk:mockk:${mockkVersion}"
+
+    // Coroutines
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
-
-    testImplementation("androidx.arch.core:core-testing:2.2.0")
-
 }
