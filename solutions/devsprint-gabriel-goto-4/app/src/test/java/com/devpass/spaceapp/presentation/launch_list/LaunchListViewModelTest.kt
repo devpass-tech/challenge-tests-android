@@ -15,6 +15,7 @@ import io.mockk.verifySequence
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.io.IOException
 
 class LaunchListViewModelTest {
 
@@ -31,13 +32,12 @@ class LaunchListViewModelTest {
 
     val error = Exception()
     val networkSuccess = mockk<List<Launch>>(relaxed = true)
-    val networkError = java.lang.Exception()
+    val networkError = IOException()
 
     @Before
     fun setup() {
         every { observer.onChanged(any()) } just runs
         coEvery { repository.fetchLaunches() } returns NetworkResult.Error(error)
-        coEvery { repository.fetchLaunches() } returns NetworkResult.Success(networkSuccess)
 
         subject = LaunchListViewModel(repository, mainDispatcherRule.dispatcher)
 
@@ -67,6 +67,7 @@ class LaunchListViewModelTest {
     @Test
     fun `GIVEN launchList WHEN network success THEN return ui success state`() {
         // Arrange.
+        coEvery { repository.fetchLaunches() } returns NetworkResult.Success(networkSuccess)
         val expected = LaunchListViewModel.LaunchListUIState.Success(networkSuccess)
 
         // Act.
@@ -84,9 +85,10 @@ class LaunchListViewModelTest {
     }
 
     @Test
-    fun `GIVEN launchList WHEN network success THEN return ui error state`() {
+    fun `GIVEN launchList WHEN network failure THEN return ui error state`() {
         // Arrange.
-        val expected = LaunchListViewModel.LaunchListUIState.Success(networkError)
+        coEvery{repository.fetchLaunches()} throws networkError
+        val expected = LaunchListViewModel.LaunchListUIState.Error(networkError)
 
         // Act.
         subject.getLaunches()
@@ -101,5 +103,4 @@ class LaunchListViewModelTest {
             observer.onChanged(expected)
         }
     }
-
 }
