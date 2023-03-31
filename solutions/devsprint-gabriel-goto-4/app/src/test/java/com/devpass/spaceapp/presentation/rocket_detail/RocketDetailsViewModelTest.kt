@@ -37,13 +37,15 @@ class RocketDetailsViewModelTest {
         RocketDetailsViewModel(rocketDetailRepository)
     }
 
-    val observer = mockk<Observer<in RocketDetailsViewModel.RocketDetailsUiState>>()
+    val observer = mockk<Observer<in RocketDetailsUiState>>()
 
     @Before
     fun setup() {
         every { observer.onChanged(any()) } just runs
-        coEvery { rocketDetailRepository.fetchRocketDetail(ANY_ID) } returns NetworkResult.Error(error)
-        viewModel.launches.observerForever(observer)
+        coEvery { rocketDetailRepository.fetchRocketDetail(ANY_ID) } returns NetworkResult.Error(
+            error
+        )
+        viewModel.uiState.observeForever(observer)
     }
 
     @Test
@@ -59,23 +61,15 @@ class RocketDetailsViewModelTest {
             viewModel.loadRocketDetails(ANY_ID)
         }
 
-
         verifySequence {
-            observer.onChanged(RocketDetailsViewModel.RocketDetailsUiState.Loading)
+            observer.onChanged(RocketDetailsUiState.Loading)
             observer.onChanged(expected)
         }
-
-        // THEN (Assertion)
-        //coVerify { rocketDetailRepository.fetchRocketDetail(any()) }
-
-        //assertEquals(expected, viewModel.uiState.value)
     }
 
     @Test
     fun `GIVEN onSuccess Result with NetworkResult Error WHEN loadRocketDetails is called THEN set RocketDetailsUiState Error with Exception to LiveData`() {
         // GIVEN
-        //val fakeException = Exception("Error!")
-
         val expected = RocketDetailsUiState.Error(error)
         coEvery {
             rocketDetailRepository.fetchRocketDetail(any())
@@ -88,15 +82,10 @@ class RocketDetailsViewModelTest {
 
         // THEN (Assertion)
         verifySequence {
-            observer.onChanged(RocketDetailsViewModel.RocketDetailsUiState.Loading)
+            observer.onChanged(RocketDetailsUiState.Loading)
             observer.onChanged(expected)
-            observer.onChanged(RocketDetailsViewModel.RocketDetailsUiState.Loading)
-            viewModel.uiState.value
+
         }
-
-       // coVerify { rocketDetailRepository.fetchRocketDetail(any()) }
-
-       // assertEquals(expected, viewModel.uiState.value)
     }
 
     @Test
@@ -112,16 +101,9 @@ class RocketDetailsViewModelTest {
         }
 
         verifySequence {
-            observer.onChanged(RocketDetailsViewModel.RocketDetailsUiState.Loading)
+            observer.onChanged(RocketDetailsUiState.Loading)
             observer.onChanged(expected)
-            observer.onChanged(RocketDetailsViewModel.RocketDetailsUiState.Loading)
-            viewModel.uiState.value
         }
-
-        // THEN (Assertion)
-        //coVerify { rocketDetailRepository.fetchRocketDetail(any()) }
-
-        //assertEquals(expected, viewModel.uiState.value)
     }
 
     private companion object {
