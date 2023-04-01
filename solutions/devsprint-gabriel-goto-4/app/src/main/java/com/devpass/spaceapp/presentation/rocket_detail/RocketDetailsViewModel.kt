@@ -22,6 +22,8 @@ class RocketDetailsViewModel(
 
     fun loadRocketDetails(id: String) {
         viewModelScope.launch {
+            _uiState.postValue(RocketDetailsUiState.Loading)
+
             runCatching {
                 delay(3000)
                 rocketDetailRepository.fetchRocketDetail(id)
